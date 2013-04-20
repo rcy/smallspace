@@ -18,6 +18,7 @@
         {{loginButtons}}
       </span>
     </h1>
+    <hr>
   </div>
   {{#if currentUser}}
   <div class="row">
@@ -48,6 +49,6 @@
 
 <template name="message">
   <div class="message">
-    {{text}}
+    {{user}}: {{text}}
   </div>
 </template>
