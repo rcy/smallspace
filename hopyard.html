@@ -1,13 +1,53 @@
 <head>
-  <title>hopyard</title>
+  <title>hopyard online leisure club</title>
 </head>
 
 <body>
-  {{> hello}}
+  <div class="container">
+    {{> page}}
+  </div>
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="page">
+  <div class="row">
+    <h1>
+      <span>
+        Hopyard Online Leisure Club and Planning HQ
+      </span>
+      <span class="pull-right">
+        {{loginButtons}}
+      </span>
+    </h1>
+  </div>
+  {{#if currentUser}}
+  <div class="row">
+    <div class="span6">
+      {{> chatWindow}}
+    </div>
+    <div class="span6">
+      videos and shit go here
+    </div>
+  </div>
+  {{/if}}
+</template>
+
+
+<template name="chatWindow">
+  <div class="chat-container">
+    <div class="chat">
+      {{#each messages}}
+      {{> message}}
+      {{/each}}
+    </div>
+
+    <form>
+      <input id="abc" autofocus="1" class="span6" type="text" placeholder="type message and press enter..." />
+    </form>
+  </div>
+</template>
+
+<template name="message">
+  <div class="message">
+    {{text}}
+  </div>
 </template>

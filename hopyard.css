@@ -1,1 +1,11 @@
 /* CSS declarations go here */
+
+.chat-container {
+    background: yellow;
+}
+.chat-container .chat {
+}
+.chat-container form {
+    position: absolute;
+    bottom: 0;
+}
