@@ -21,10 +21,14 @@ if (Meteor.isClient) {
       return false;
     }
   }
-
   Template.chatWindow.rendered = function() {
     resizeChat();
     scrollChat();
+  }
+
+  Template.message.user = function() {
+//    console.log(Meteor.user.find(this.userId));
+    return Meteor.users.findOne(this.userId).username;
   }
 
   Meteor.startup(function() {
@@ -41,8 +45,8 @@ if (Meteor.isClient) {
   }
   scrollChat = function() {
     var $chat = $('.chat-container .chat');
-    if ((25 + $chat.scrollTop()) >= ($chat.prop('scrollHeight')
-                                     - $chat.prop('offsetHeight'))) {
+    if (($chat.scrollTop() === 0)
+        || (25 + $chat.scrollTop()) >= ($chat.prop('scrollHeight') - $chat.prop('offsetHeight'))) {
       $chat.scrollTop(1000000);
     }
   }
