@@ -94,14 +94,14 @@ if (Meteor.isClient) {
     return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
   }
   Template.link.inline = function() {
-    var match = this.url.match(/youtube.com\/watch\?v=(.+)/)
+    var match = this.url.match(/youtube.com\/watch\?.*v=(.+)/)
     if (match) {
       var video_id = match[1];
       return '<iframe id="ytplayer" type="text/html" width="400px" height="300px" src="http://www.youtube.com/embed/'+video_id+'?autoplay=0&origin=http://smallspace.meteor.com frameborder="0"/>';
     } else {
       var match = this.url.match(/(jpg|gif|png)$/);
       if (match) {
-        return '<img src="'+this.url+'" width="50%" />'
+        return '<a href="'+this.url+'" target="_blank"><img src="'+this.url+'" width="50%" /></a>'
       } else {
         return '';
       }
