@@ -24,7 +24,8 @@ if (Meteor.isClient) {
   }
   Template.header.events = {
     'click .title': function(e) {
-      Session.set('currentSpace', null);
+      Router.setSpace(null);
+      return false;
     }
   }
 
@@ -34,7 +35,7 @@ if (Meteor.isClient) {
   Template.spaceList.events = {
     'click a': function(e) {
       var spaceId = $(e.target).attr('href');
-      Session.set('currentSpace', spaceId);
+      Router.setSpace(spaceId);
       return false;
     }
   }
@@ -110,6 +111,7 @@ if (Meteor.isClient) {
       resizeChat();
       scrollChat();
     });
+    Backbone.history.start({pushState: true});
   });
 
   resizeChat = function() {
@@ -126,6 +128,28 @@ if (Meteor.isClient) {
       $chat.scrollTop(1000000);
     }
   }
+
+  // router
+  var SpaceRouter = Backbone.Router.extend({
+    routes: {
+      "": "menu",
+      ":spaceId": "main"
+    },
+    menu: function() {
+      console.log('menu');
+      Session.set('currentSpace', null);
+    },
+    main: function(spaceId) {
+      var oldSpace = Session.get('currentSpace');
+      if (oldSpace !== spaceId) {
+        Session.set('currentSpace', spaceId);
+      }
+    },
+    setSpace: function(spaceId) {
+      this.navigate(spaceId, true);
+    }
+  });
+  Router = new SpaceRouter;
 }
 
 if (Meteor.isServer) {
