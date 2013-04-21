@@ -8,6 +8,7 @@ if (Meteor.isClient) {
     }
   });
   Meteor.subscribe('spaces');
+  Meteor.subscribe('allUserData');
 
   Handlebars.registerHelper("currentSpace", function() {
     return Session.get('currentSpace');
@@ -136,6 +137,9 @@ if (Meteor.isServer) {
   });
   Meteor.publish('spaces', function() {
     return Spaces.find();
+  });
+  Meteor.publish('allUserData', function() {
+    return Meteor.users.find();
   });
 
   Meteor.startup(function () {
