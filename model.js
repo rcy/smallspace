@@ -26,7 +26,8 @@ Meteor.methods({
           messageId: messageId,
           messageText: object.text,
           created: Date.now(),
-          spaceId: object.spaceId
+          spaceId: object.spaceId,
+          title: 'untitled'
         });
       }, this);
     }
