@@ -31,6 +31,33 @@ if (Meteor.isClient) {
     return Meteor.users.findOne(this.userId).username;
   }
 
+  Template.links.links = function() {
+    return Links.find({}, {sort: {created: -1}});
+  }
+  Template.link.isOwner = function() {
+    return this.userId === Meteor.userId();
+  }
+  Template.link.inlineOrLink = function() {
+    var match = this.url.match(/youtube.com\/watch\?v=(.+)/)
+    if (match) {
+      var video_id = match[1];
+      return '<iframe id="ytplayer" type="text/html" width="400px" height="300px" src="http://www.youtube.com/embed/'+video_id+'?autoplay=0&origin=http://localhost:3000 frameborder="0"/>';
+    } else {
+      var match = this.url.match(/(jpg|gif)$/);
+      if (match) {
+        return '<img src="'+this.url+'" width="75%" />'
+      } else {
+        return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
+      }
+    }
+  }
+  Template.link.events = {
+    'click .delete': function(e) {
+      if (confirm('Delete this link? (NOTE: It will remain in the chat log)'))
+        Links.remove(this._id);
+    }
+  };
+
   Meteor.startup(function() {
     $(window).resize(function(evt) {
       resizeChat();
@@ -42,6 +69,7 @@ if (Meteor.isClient) {
     var top = $('.chat-container .chat').position().top;
     var bot = $('.chat-container form').position().top;
     $('.chat-container .chat').height(bot - top);
+    $('.links').height(bot-top);
   }
   scrollChat = function() {
     var $chat = $('.chat-container .chat');
@@ -55,5 +83,8 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    Meteor.publish('links', function() {
+      return Links.find();
+    });
   });
 }

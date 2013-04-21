@@ -26,12 +26,32 @@
       {{> chatWindow}}
     </div>
     <div class="span6">
-      videos and shit go here
+      {{> links}}
     </div>
   </div>
   {{/if}}
 </template>
 
+
+<template name="links">
+  <div class="links">
+    <h6>recent links</h6>
+    {{#each links}}
+    {{> link}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="link">
+  <div class="link">
+    <div>{{userId}} posted: ({{date}})</div>
+    <div>{{{inlineOrLink}}}</div>
+    {{#if isOwner}}
+    <button class="btn btn-danger btn-small delete">delete</button>
+    {{/if}}
+  </div>
+  <hr>
+</template>
 
 <template name="chatWindow">
   <div class="chat-container">

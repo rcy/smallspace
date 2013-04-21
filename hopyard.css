@@ -4,11 +4,19 @@ html, body {
     height: 100%;
 }
 
+.links {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.link {
+}
+
 .chat-container {
 }
 .chat-container .chat {
     height: 100px;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .chat-container form {
     position: absolute;
