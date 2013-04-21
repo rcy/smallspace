@@ -37,6 +37,14 @@ if (Meteor.isClient) {
       var spaceId = $(e.target).attr('href');
       Router.setSpace(spaceId);
       return false;
+    },
+    'click .new': function(e) {
+      var name = prompt('new space name:');
+      Meteor.call('createSpace', {name: name}, function(err, result) {
+        console.log(err, result);
+        Router.setSpace(result);
+      });
+      return false;
     }
   }
 

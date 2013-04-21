@@ -32,6 +32,19 @@ Meteor.methods({
     }
 
     return messageId;
+  },
+
+  createSpace: function(object) {
+    object = object || {};
+
+    if (!object.name || !object.name.length)
+      throw new Meteor.Error(400, 'arg error');
+
+    return Spaces.insert({
+      name: object.name,
+      created: Date.now(),
+      userId: this.userId
+    });
   }
 });
 
