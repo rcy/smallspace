@@ -1,26 +1,51 @@
 <head>
-  <title>hopyard online leisure club</title>
+  <title>smallspace</title>
 </head>
 
 <body>
   <div class="container">
-    {{> page}}
+    <div class="row">
+      {{> header}}
+    </div>
+    {{#if currentUser}}
+      {{#if currentSpace}}
+        {{> space}}
+      {{else}}
+        {{> spaceList}}
+      {{/if}}
+    {{else}}
+      {{#unless loggingIn}}
+      <center>
+        <img src="5672902086_98737b1dfe_b.jpg" width="800" />
+      </center>
+      {{/unless}}
+    {{/if}}
   </div>
 </body>
 
-<template name="page">
-  <div class="row">
-    <h1>
-      <span>
-        Hopyard Online Leisure Club and Planning HQ
-      </span>
-      <span class="pull-right">
-        {{loginButtons align="right"}}
-      </span>
-    </h1>
-    <hr>
-  </div>
-  {{#if currentUser}}
+<template name="header">
+  <h2>
+    <a href="#" class="title">smallspace</a>
+    <span>
+      {{currentSpace}}
+    </span>
+    <span class="pull-right">
+      {{loginButtons align="right"}}
+    </span>
+  </h2>
+  <hr>
+</template>
+
+<template name="spaceList">
+  <h1>My Small Spaces</h1>
+  <ul>
+    {{#each spaces}}
+    <li><a href="{{_id}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="space">
   <div class="row">
     <div class="span6">
       {{> chatWindow}}
@@ -29,7 +54,6 @@
       {{> links}}
     </div>
   </div>
-  {{/if}}
 </template>
 
 
@@ -44,11 +68,11 @@
 
 <template name="link">
   <div class="link">
+    {{#if isOwner}}
+    <button class="pull-right btn btn-small delete">delete</button>
+    {{/if}}
     <div>posted by <strong>{{user}}</strong> {{when}}</div>
     <div>{{{inlineOrLink}}}</div>
-    {{#if isOwner}}
-    <button class="btn btn-small delete">delete</button>
-    {{/if}}
   </div>
   <hr>
 </template>

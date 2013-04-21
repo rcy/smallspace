@@ -1,11 +1,42 @@
 
 if (Meteor.isClient) {
-  Meteor.subscribe('messages');
-  Meteor.subscribe('links');
+  Deps.autorun(function() {
+    var spaceId = Session.get('currentSpace');
+    if (spaceId) {
+      Meteor.subscribe('messages', spaceId);
+      Meteor.subscribe('links', spaceId);
+    }
+  });
+  Meteor.subscribe('spaces');
+
+  Handlebars.registerHelper("currentSpace", function() {
+    return Session.get('currentSpace');
+  });
 
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
+
+  Template.header.currentSpace = function() {
+    var space = Spaces.findOne({_id: Session.get('currentSpace')})
+    return space && space.name;
+  }
+  Template.header.events = {
+    'click .title': function(e) {
+      Session.set('currentSpace', null);
+    }
+  }
+
+  Template.spaceList.spaces = function() {
+    return Spaces.find();
+  }
+  Template.spaceList.events = {
+    'click a': function(e) {
+      var spaceId = $(e.target).attr('href');
+      Session.set('currentSpace', spaceId);
+      return false;
+    }
+  }
 
   Template.chatWindow.messages = function() {
     return Messages.find();
@@ -14,10 +45,11 @@ if (Meteor.isClient) {
     "submit form": function(e) {
       var $input = $(e.target).find('input');
       $input.attr('disabled', true);
-      Meteor.call('post', $input.val(), function(err, result) {
-        if (!err) {
-          $input.attr('disabled', false).val('');
-        }
+      Meteor.call('post', {text: $input.val(), spaceId: Session.get('currentSpace')},
+                  function(err, result) {
+                    if (!err) {
+                      $input.attr('disabled', false).val('');
+                    }
       });
       return false;
     }
@@ -31,7 +63,8 @@ if (Meteor.isClient) {
     return moment(this.created).format("HH:mm");
   }
   Template.message.user = function() {
-    return Meteor.users.findOne(this.userId).username;
+    var user = Meteor.users.findOne(this.userId);
+    return user && user.username;
   }
 
   Template.links.links = function() {
@@ -41,7 +74,8 @@ if (Meteor.isClient) {
     return this.userId === Meteor.userId();
   }
   Template.link.user = function() {
-    return Meteor.users.findOne(this.userId).username;
+    var user = Meteor.users.findOne(this.userId);
+    return user && user.username;
   }
   Template.link.when = function() {
     return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
@@ -80,6 +114,7 @@ if (Meteor.isClient) {
     $('.chat-container .chat').height(bot - top);
     $('.links').height(bot-top);
   }
+
   scrollChat = function() {
     var $chat = $('.chat-container .chat');
     if (($chat.scrollTop() === 0)
@@ -90,11 +125,14 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.publish('messages', function() {
-    return Messages.find({});
+  Meteor.publish('messages', function(spaceId) {
+    return Messages.find({spaceId: spaceId});
   });
-  Meteor.publish('links', function() {
-    return Links.find({});
+  Meteor.publish('links', function(spaceId) {
+    return Links.find({spaceId: spaceId});
+  });
+  Meteor.publish('spaces', function() {
+    return Spaces.find();
   });
 
   Meteor.startup(function () {

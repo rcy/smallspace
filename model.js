@@ -1,23 +1,32 @@
+Spaces = new Meteor.Collection("spaces");
+
 Messages = new Meteor.Collection("messages");
 Links = new Meteor.Collection("links");
 
 Meteor.methods({
-  post: function(text) {
+  post: function(object) {
+    object = object || {};
+
+    if (!object.text || !object.spaceId)
+      throw new Meteor.Error(400, 'arg error');
+
     var messageId = Messages.insert({
       userId: this.userId,
       created: Date.now(),
-      text: text
+      text: object.text,
+      spaceId: object.spaceId
     });
 
     if (!this.isSimulation) {
-      var links = extractLinks(text);
+      var links = extractLinks(object.text);
       _.each(links, function(link) {
         Links.insert({
           userId: this.userId,
           url: link,
           messageId: messageId,
-          messageText: text,
-          created: Date.now()
+          messageText: object.text,
+          created: Date.now(),
+          spaceId: object.spaceId
         });
       }, this);
     }

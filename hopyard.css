@@ -11,7 +11,7 @@ html, body {
 .link {
 }
 
-.chat-container {
+.chat-container, .chat-container input {
 }
 .chat-container .chat {
     height: 100px;
