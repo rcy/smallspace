@@ -44,10 +44,10 @@
 
 <template name="link">
   <div class="link">
-    <div>{{userId}} posted: ({{date}})</div>
+    <div>{{when}}, <strong>{{user}}</strong> posted:</div>
     <div>{{{inlineOrLink}}}</div>
     {{#if isOwner}}
-    <button class="btn btn-danger btn-small delete">delete</button>
+    <button class="btn btn-small delete">delete</button>
     {{/if}}
   </div>
   <hr>

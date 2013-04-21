@@ -27,7 +27,6 @@ if (Meteor.isClient) {
   }
 
   Template.message.user = function() {
-//    console.log(Meteor.user.find(this.userId));
     return Meteor.users.findOne(this.userId).username;
   }
 
@@ -36,6 +35,12 @@ if (Meteor.isClient) {
   }
   Template.link.isOwner = function() {
     return this.userId === Meteor.userId();
+  }
+  Template.link.user = function() {
+    return Meteor.users.findOne(this.userId).username;
+  }
+  Template.link.when = function() {
+    return this.created;
   }
   Template.link.inlineOrLink = function() {
     var match = this.url.match(/youtube.com\/watch\?v=(.+)/)
