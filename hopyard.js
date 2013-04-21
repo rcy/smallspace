@@ -1,6 +1,7 @@
 
 if (Meteor.isClient) {
   Meteor.subscribe('messages');
+  Meteor.subscribe('links');
 
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
@@ -34,7 +35,7 @@ if (Meteor.isClient) {
   }
 
   Template.links.links = function() {
-    return Links.find({}, {sort: {created: -1}});
+    return Links.find({}, {sort: {created: -1}, limit: 30});
   }
   Template.link.isOwner = function() {
     return this.userId === Meteor.userId();
@@ -89,10 +90,14 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+  Meteor.publish('messages', function() {
+    return Messages.find({});
+  });
+  Meteor.publish('links', function() {
+    return Links.find({});
+  });
+
   Meteor.startup(function () {
     // code to run on server at startup
-    Meteor.publish('links', function() {
-      return Links.find();
-    });
   });
 }
