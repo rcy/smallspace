@@ -1,4 +1,6 @@
-- show timestamp and user on link stream
++ show timestamp and user on link stream
 - add hide/favourite buttons to links
 - allow creating chatrooms
 - allow inviting users
+- used fixed width font in chat
+- remove autopublish
