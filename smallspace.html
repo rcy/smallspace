@@ -69,12 +69,15 @@
 
 <template name="link">
   <div class="link">
-    {{#if isOwner}}
-    <button class="pull-right btn btn-small delete">delete</button>
-    {{/if}}
-    <div>posted by <strong>{{user}}</strong> {{when}}</div>
-    <div>{{{link}}}</div>
+    {{#if inline}}
     <div>{{{inline}}}</div>
+    {{/if}}
+    <div>{{{link}}}</div>
+    <div>posted by <strong>{{user}}</strong> {{when}}
+      {{#if isOwner}}
+      <button class="pull-right btn btn-small delete">delete</button>
+      {{/if}}
+    </div>
   </div>
   <hr>
 </template>
