@@ -26,6 +26,9 @@ if (Meteor.isClient) {
     scrollChat();
   }
 
+  Template.message.when = function() {
+    return moment(this.created).format("HH:mm");
+  }
   Template.message.user = function() {
     return Meteor.users.findOne(this.userId).username;
   }
@@ -40,7 +43,7 @@ if (Meteor.isClient) {
     return Meteor.users.findOne(this.userId).username;
   }
   Template.link.when = function() {
-    return this.created;
+    return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
   }
   Template.link.inlineOrLink = function() {
     var match = this.url.match(/youtube.com\/watch\?v=(.+)/)
