@@ -1,4 +1,4 @@
-- used fixed width font in chat
 - allow creating chatrooms
 - allow inviting users
 - add hide/favourite buttons to links
+- fetch url HEAD to sniff out images that do not have extension

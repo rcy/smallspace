@@ -80,17 +80,20 @@ if (Meteor.isClient) {
   Template.link.when = function() {
     return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
   }
-  Template.link.inlineOrLink = function() {
+  Template.link.link = function() {
+    return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
+  }
+  Template.link.inline = function() {
     var match = this.url.match(/youtube.com\/watch\?v=(.+)/)
     if (match) {
       var video_id = match[1];
       return '<iframe id="ytplayer" type="text/html" width="400px" height="300px" src="http://www.youtube.com/embed/'+video_id+'?autoplay=0&origin=http://localhost:3000 frameborder="0"/>';
     } else {
-      var match = this.url.match(/(jpg|gif)$/);
+      var match = this.url.match(/(jpg|gif|png)$/);
       if (match) {
-        return '<img src="'+this.url+'" width="75%" />'
+        return '<img src="'+this.url+'" width="50%" />'
       } else {
-        return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
+        return '';
       }
     }
   }
