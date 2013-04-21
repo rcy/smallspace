@@ -9,16 +9,18 @@ Meteor.methods({
       text: text
     });
 
-    var links = extractLinks(text);
-    _.each(links, function(link) {
-      Links.insert({
-        userId: this.userId,
-        url: link,
-        messageId: messageId,
-        messageText: text,
-        created: Date.now()
-      });
-    }, this);
+    if (!this.isSimulation) {
+      var links = extractLinks(text);
+      _.each(links, function(link) {
+        Links.insert({
+          userId: this.userId,
+          url: link,
+          messageId: messageId,
+          messageText: text,
+          created: Date.now()
+        });
+      }, this);
+    }
 
     return messageId;
   }
