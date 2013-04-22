@@ -15,9 +15,11 @@
       {{/if}}
     {{else}}
       {{#unless loggingIn}}
-      <center>
-        <img src="5672902086_98737b1dfe_b.jpg" width="800" />
-      </center>
+      <div class="hero-unit">
+        <h1>Welcome to smallspace</h1>
+        <p></p>
+        <img src="http://lorempixel.com/1200/400" />
+      </div>
       {{/unless}}
     {{/if}}
   </div>
@@ -25,7 +27,7 @@
 
 <template name="header">
   <h2>
-    <a href="#" class="title">&lt;</a>
+    <a href="#" class="title">smallspace</a>
     <span>
       {{currentSpace}}
     </span>
@@ -38,6 +40,7 @@
 
 <template name="spaceList">
   <p class="lead">Welcome to smallspace.</p>
+  <hr>
 
   <ul class="thumbnails">
     {{#each spaces}}
@@ -51,11 +54,17 @@
 
 <template name="spaceListItem">
   <li class="span2">
-    <div class="thumbnail">
-      <img src="{{image}}" alt="">
+    <div class="thumbnail {{isInvited}}">
+      <img width="200px" src="{{image}}" alt="">
       <h3>{{name}}</h3>
       <p>last activity {{updated}}</p>
       <p>{{description}}</p>
+      {{#if isInvited}}
+        <hr>
+        <p>You have been invited to this space:</p>
+        <button class="accept-invite  btn btn-small btn-info">accept</button>
+        <button class="decline-invite btn btn-small">decline</button>
+      {{/if}}
     </div>
   </li>
 </template>

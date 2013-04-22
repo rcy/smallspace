@@ -4,16 +4,20 @@ if (Meteor.isClient) {
     if (spaceId) {
       Meteor.subscribe('messages', spaceId);
       Meteor.subscribe('links', spaceId);
-      Meteor.subscribe('invites', spaceId);
+      Meteor.subscribe('space-invites', spaceId);
       Meteor.subscribe('space-memberships', spaceId);
     }
   });
 
   Deps.autorun(function() {
-    Meteor.subscribe('spaces', _.pluck(Memberships.find().fetch(), 'spaceId'));
+    var ms = Memberships.find().fetch();
+    var is = Invites.find().fetch();
+    var spaceIds = _.pluck(ms.concat(is), 'spaceId');
+    Meteor.subscribe('spaces', spaceIds);
   });
 
   Meteor.subscribe('my-memberships');
+  Meteor.subscribe('my-invites');
 
   // XXX this is BAD
   Meteor.subscribe('allUserData');
@@ -56,7 +60,7 @@ if (Meteor.isClient) {
     }
   }
   Template.spaceListItem.image = function() {
-    return this.image || 'http://placekitten.com/300/200';
+    return this.image || 'http://www.gravatar.com/avatar/'+md5(this._id)+'.jpg?d=monsterid&s=200'
   }
   Template.spaceListItem.createdBy = function() {
     // XXX generalize this
@@ -65,6 +69,13 @@ if (Meteor.isClient) {
   }
   Template.spaceListItem.updated = function() {
     return this.updated && moment(this.updated).fromNow();
+  }
+  Template.spaceListItem.isInvited = function() {
+    var user = Meteor.user();
+    if (user) {
+      var invites = Invites.find({email: user.emails[0].address}).fetch();
+      return _.contains(_.pluck(invites, 'spaceId'), this._id);
+    }
   }
   Template.spaceListItem.events = {
     'click': function(e) {
@@ -163,7 +174,7 @@ if (Meteor.isClient) {
     return user && user.username;
   }
   Template.users.invites = function() {
-    return Invites.find();
+    return Invites.find({spaceId: Session.get('currentSpace')});
   }
   Template.users.events = {
     "submit form.invite": function(e) {
@@ -219,7 +230,6 @@ if (Meteor.isClient) {
       ":spaceId": "main"
     },
     menu: function() {
-      console.log('menu');
       Session.set('currentSpace', null);
     },
     main: function(spaceId) {
@@ -242,14 +252,21 @@ if (Meteor.isServer) {
   Meteor.publish('links', function(spaceId) {
     return Links.find({spaceId: spaceId});
   });
-  Meteor.publish('invites', function(spaceId) {
+  Meteor.publish('space-invites', function(spaceId) {
     return Invites.find({spaceId: spaceId});
   });
   Meteor.publish('space-memberships', function(spaceId) {
     return Memberships.find({spaceId: spaceId});
   });
   Meteor.publish('my-memberships', function() {
+    console.log('publish my-memberships')
     return Memberships.find({userId: this.userId});
+  });
+  Meteor.publish('my-invites', function() {
+    console.log('publish my-invites', this.userId)
+    var user = Meteor.users.findOne(this.userId);
+    if (user)
+      return Invites.find({email: user.emails[0].address});
   });
   Meteor.publish('spaces', function(spaceIds) {
     return Spaces.find({_id: {$in: spaceIds}});
