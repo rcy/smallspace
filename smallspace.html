@@ -88,21 +88,33 @@
 </template>
 
 <template name="users">
+  <h4>Members</h4>
+  <ul>
+    {{#each members}}
+      {{> memberListItem}}
+    {{/each}}
+  </ul>
+
+  <h4>Invitations</h4>
   <form class="invite form-inline">
-    <label>Invite someone by email:</label>
+    <label>Invite by email:</label>
     <input type="email" />
     <button class="btn" type="submit">Send</button>
   </form>
   <ul>
     {{#each invites}}
-      {{> invite}}
+      {{> inviteListItem}}
     {{else}}
-    <em>No current invitations</em>
+      <em>No current invitations</em>
     {{/each}}
   </ul>
 </template>
 
-<template name="invite">
+<template name="memberListItem">
+  <li>{{username}}</li>
+</template>
+
+<template name="inviteListItem">
   <li><b>{{email}}</b> was invited {{when}}. <a href="#" class="cancel">cancel invitation</a></li>
 </template>
 

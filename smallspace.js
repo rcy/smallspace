@@ -6,10 +6,19 @@ if (Meteor.isClient) {
       Meteor.subscribe('messages', spaceId);
       Meteor.subscribe('links', spaceId);
       Meteor.subscribe('invites', spaceId);
+      Meteor.subscribe('space-memberships', spaceId);
     }
   });
-  Meteor.subscribe('spaces');
+
+  Deps.autorun(function() {
+    Meteor.subscribe('spaces', _.pluck(Memberships.find().fetch(), 'spaceId'));
+  });
+
+  Meteor.subscribe('my-memberships');
+
+  // XXX this is BAD
   Meteor.subscribe('allUserData');
+
 
   Handlebars.registerHelper("currentSpace", function() {
     return Session.get('currentSpace');
@@ -47,6 +56,7 @@ if (Meteor.isClient) {
     return this.image || 'http://placekitten.com/300/200';
   }
   Template.spaceListItem.createdBy = function() {
+    // XXX generalize this
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
@@ -84,6 +94,7 @@ if (Meteor.isClient) {
     return moment(this.created).format("HH:mm");
   }
   Template.message.user = function() {
+    // XXX generalize this
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
@@ -95,6 +106,7 @@ if (Meteor.isClient) {
     return this.userId === Meteor.userId();
   }
   Template.link.user = function() {
+    // XXX generalize this
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
@@ -127,16 +139,25 @@ if (Meteor.isClient) {
 
 
   // XXX use a generic date helper for this:
-  Template.invite.when = function() {
+  Template.inviteListItem.when = function() {
     return moment(this.created).fromNow();
   }
 
-  Template.invite.events = {
+  Template.inviteListItem.events = {
     'click .cancel': function(e) {
       if (confirm('cancel invite for ' + this.email + '?'))
         Invites.remove(this._id);
       return false;
     }
+  }
+
+  Template.users.members = function() {
+    return Memberships.find({spaceId: Session.get('currentSpace')});
+  }
+  Template.memberListItem.username = function() {
+    // XXX generalize this
+    var user = Meteor.users.findOne(this.userId);
+    return user && user.username;
   }
   Template.users.invites = function() {
     return Invites.find();
@@ -221,8 +242,14 @@ if (Meteor.isServer) {
   Meteor.publish('invites', function(spaceId) {
     return Invites.find({spaceId: spaceId});
   });
-  Meteor.publish('spaces', function() {
-    return Spaces.find();
+  Meteor.publish('space-memberships', function(spaceId) {
+    return Memberships.find({spaceId: spaceId});
+  });
+  Meteor.publish('my-memberships', function() {
+    return Memberships.find({userId: this.userId});
+  });
+  Meteor.publish('spaces', function(spaceIds) {
+    return Spaces.find({_id: {$in: spaceIds}});
   });
   Meteor.publish('allUserData', function() {
     return Meteor.users.find();

@@ -1,5 +1,6 @@
 Spaces = new Meteor.Collection("spaces");
 Invites = new Meteor.Collection("invites");
+Memberships = new Meteor.Collection("memberships");
 
 Messages = new Meteor.Collection("messages");
 Links = new Meteor.Collection("links");
@@ -45,12 +46,21 @@ Meteor.methods({
     if (!object.name || !object.name.length)
       throw new Meteor.Error(400, 'arg error');
 
-    return Spaces.insert({
+    var spaceId = Spaces.insert({
       name: object.name,
       created: Date.now(),
       updated: Date.now(),
       userId: this.userId
     });
+
+    Memberships.insert({
+      created: Date.now(),
+      updated: Date.now(),
+      userId: this.userId,
+      spaceId: spaceId
+    });
+
+    return spaceId;
   },
 });
 
