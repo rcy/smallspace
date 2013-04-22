@@ -61,14 +61,20 @@
 </template>
 
 <template name="space">
-  <div class="row">
-    <div class="span6">
-      {{> chatWindow}}
+  {{#if isMember}}
+    <div class="row">
+      <div class="span6">
+        {{> chatWindow}}
+      </div>
+      <div class="span6">
+        {{> rightSideNav}}
+      </div>
     </div>
-    <div class="span6">
-      {{> rightSideNav}}
+  {{else}}
+    <div>
+      sorry you are not allowed here
     </div>
-  </div>
+  {{/if}}
 </template>
 
 <template name="rightSideNav">

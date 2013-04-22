@@ -1,4 +1,3 @@
-
 if (Meteor.isClient) {
   Deps.autorun(function() {
     var spaceId = Session.get('currentSpace');
@@ -37,6 +36,10 @@ if (Meteor.isClient) {
       Router.setSpace(null);
       return false;
     }
+  }
+
+  Template.space.isMember = function() {
+    return Memberships.findOne({spaceId: Session.get('currentSpace'), userId: Meteor.userId()});
   }
 
   Template.spaceList.spaces = function() {
