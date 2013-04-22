@@ -121,9 +121,10 @@
     <div>{{{inline}}}</div>
     {{/if}}
     <div>{{{link}}}</div>
-    <div>posted by <strong>{{user}}</strong> {{when}}
+    <div>
+      posted by <strong>{{user}}</strong> {{when}}
       {{#if isOwner}}
-      <button class="pull-right btn btn-small delete">delete</button>
+        <a href="#" class="small delete">remove</a>
       {{/if}}
     </div>
   </div>
