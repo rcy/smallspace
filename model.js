@@ -1,4 +1,5 @@
 Spaces = new Meteor.Collection("spaces");
+Invites = new Meteor.Collection("invites");
 
 Messages = new Meteor.Collection("messages");
 Links = new Meteor.Collection("links");
@@ -46,8 +47,39 @@ Meteor.methods({
       created: Date.now(),
       userId: this.userId
     });
-  }
+  },
 });
+
+if (Meteor.isServer) {
+  Meteor.methods({
+    inviteByEmail: function (to, space) {
+      // Let other method calls from the same client start running,
+      // without waiting for the email sending to complete.
+      this.unblock();
+
+      console.log('mailurl:',process.env.MAIL_URL);
+
+      //if (Invites.findOne({and: [{email: to}, {spaceId: space.id}]})
+
+      Email.send({
+        to: to,
+        from: "rcyeske+server@gmail.com",
+        subject: "invitation to '" + space.name + "'",
+        text: "You are invited to " + space.name + "!\n\n" 
+          + "Visit " + process.env.ROOT_URL + "/" + space._id
+      });
+
+      // create or update invitation record
+      Invites.update({ email: to, 
+                       spaceId: space._id},
+                     { $set: { email: to,
+                               spaceId: space._id,
+                               invitedBy: this.userId,
+                               created: Date.now() }},
+                     { upsert: true});
+    }
+  });
+}
 
 
 extractLinks = function(text) {

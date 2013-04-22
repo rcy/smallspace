@@ -25,7 +25,7 @@
 
 <template name="header">
   <h2>
-    <a href="#" class="title">smallspace</a>
+    <a href="#" class="title">&lt;</a>
     <span>
       {{currentSpace}}
     </span>
@@ -37,7 +37,7 @@
 </template>
 
 <template name="spaceList">
-  <h1>My Small Spaces <button class="btn btn-small new">new</button></h1>
+  <h1>small spaces <button class="btn btn-small new">create</button></h1>
   <ul>
     {{#each spaces}}
     <li><a href="{{_id}}">{{name}}</a></li>
@@ -51,15 +51,49 @@
       {{> chatWindow}}
     </div>
     <div class="span6">
-      {{> links}}
+      {{> rightSideNav}}
     </div>
   </div>
+</template>
+
+<template name="rightSideNav">
+  <ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#links" data-toggle="tab">Links</a></li>
+    <li><a href="#users" data-toggle="tab">Users</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="links">
+      {{> links}}
+    </div>
+    <div class="tab-pane" id="users">
+      {{> users}}
+    </div>
+  </div>
+</template>
+
+<template name="users">
+  <form class="invite form-inline">
+    <label>Invite someone by email:</label>
+    <input type="email" />
+    <button class="btn" type="submit">Send</button>
+  </form>
+  <ul>
+    {{#each invites}}
+      {{> invite}}
+    {{else}}
+    <em>No current invitations</em>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="invite">
+  <li><b>{{email}}</b> was invited {{when}}. <a href="#" class="cancel">cancel invitation</a></li>
 </template>
 
 
 <template name="links">
   <div class="links">
-    <h6>recent links</h6>
     {{#each links}}
     {{> link}}
     {{/each}}

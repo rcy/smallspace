@@ -5,6 +5,7 @@ if (Meteor.isClient) {
     if (spaceId) {
       Meteor.subscribe('messages', spaceId);
       Meteor.subscribe('links', spaceId);
+      Meteor.subscribe('invites', spaceId);
     }
   });
   Meteor.subscribe('spaces');
@@ -114,6 +115,46 @@ if (Meteor.isClient) {
     }
   };
 
+
+  // XXX use a generic date helper for this:
+  Template.invite.when = function() {
+    return moment(this.created).fromNow();
+  }
+
+  Template.invite.events = {
+    'click .cancel': function(e) {
+      if (confirm('cancel invite for ' + this.email + '?'))
+        Invites.remove(this._id);
+      return false;
+    }
+  }
+  Template.users.invites = function() {
+    return Invites.find();
+  }
+  Template.users.events = {
+    "submit form.invite": function(e) {
+      e.preventDefault();
+      var $inp = $(e.target).find('input');
+      var addr = $inp.val();
+      var space = Spaces.findOne(Session.get('currentSpace'));
+
+      // XXX for now, just return if form is empty.  Should validate
+      // email also, but server will throw exception if it cannot
+      // deliver.
+      if (!addr) return false;
+
+      Meteor.call('inviteByEmail', addr, space, function(err, result) {
+        console.log('returned from sending invite', err, result);
+        if (err) {
+          alert('error sending email');
+        } else {
+          $inp.val('');
+        }
+      });
+      return false;
+    }
+  }
+
   Meteor.startup(function() {
     $(window).resize(function(evt) {
       resizeChat();
@@ -167,6 +208,9 @@ if (Meteor.isServer) {
   Meteor.publish('links', function(spaceId) {
     return Links.find({spaceId: spaceId});
   });
+  Meteor.publish('invites', function(spaceId) {
+    return Invites.find({spaceId: spaceId});
+  });
   Meteor.publish('spaces', function() {
     return Spaces.find();
   });
@@ -176,5 +220,6 @@ if (Meteor.isServer) {
 
   Meteor.startup(function () {
     // code to run on server at startup
+    //console.log(process.env);
   });
 }
