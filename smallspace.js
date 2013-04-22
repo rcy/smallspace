@@ -34,11 +34,6 @@ if (Meteor.isClient) {
     return Spaces.find();
   }
   Template.spaceList.events = {
-    'click a': function(e) {
-      var spaceId = $(e.target).attr('href');
-      Router.setSpace(spaceId);
-      return false;
-    },
     'click .new': function(e) {
       var name = prompt('new space name:');
       Meteor.call('createSpace', {name: name}, function(err, result) {
@@ -46,6 +41,21 @@ if (Meteor.isClient) {
         Router.setSpace(result);
       });
       return false;
+    }
+  }
+  Template.spaceListItem.image = function() {
+    return this.image || 'http://placekitten.com/300/200';
+  }
+  Template.spaceListItem.createdBy = function() {
+    var user = Meteor.users.findOne(this.userId);
+    return user && user.username;
+  }
+  Template.spaceListItem.updated = function() {
+    return this.updated && moment(this.updated).fromNow();
+  }
+  Template.spaceListItem.events = {
+    'click': function(e) {
+      Router.setSpace(this._id);
     }
   }
 

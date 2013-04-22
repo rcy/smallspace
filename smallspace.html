@@ -37,12 +37,27 @@
 </template>
 
 <template name="spaceList">
-  <h1>small spaces <button class="btn btn-small new">create</button></h1>
-  <ul>
+  <p class="lead">Welcome to smallspace.</p>
+
+  <ul class="thumbnails">
     {{#each spaces}}
-    <li><a href="{{_id}}">{{name}}</a></li>
+      {{> spaceListItem}}
     {{/each}}
   </ul>
+
+  <button class="btn btn-small new">create new space</button>
+
+</template>
+
+<template name="spaceListItem">
+  <li class="span2">
+    <div class="thumbnail">
+      <img src="{{image}}" alt="">
+      <h3>{{name}}</h3>
+      <p>last activity {{updated}}</p>
+      <p>{{description}}</p>
+    </div>
+  </li>
 </template>
 
 <template name="space">

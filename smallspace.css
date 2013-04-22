@@ -22,3 +22,10 @@ html, body {
     position: absolute;
     bottom: 0;
 }
+
+.thumbnail {
+    cursor: pointer;
+}
+.thumbnail:hover {
+    background: #dde;
+}
