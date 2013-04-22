@@ -39,6 +39,7 @@
 </template>
 
 <template name="spaceList">
+  <button class="pull-right btn btn-small new">create new space</button>
   <p class="lead">Welcome to smallspace.</p>
   <hr>
 
@@ -47,9 +48,6 @@
       {{> spaceListItem}}
     {{/each}}
   </ul>
-
-  <button class="btn btn-small new">create new space</button>
-
 </template>
 
 <template name="spaceListItem">
@@ -62,7 +60,7 @@
       {{#if isInvited}}
         <hr>
         <p>You have been invited to this space:</p>
-        <button class="accept-invite  btn btn-small btn-info">accept</button>
+        <button class="accept-invite  btn btn-small btn-primary">accept</button>
         <button class="decline-invite btn btn-small">decline</button>
       {{/if}}
     </div>
