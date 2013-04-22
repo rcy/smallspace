@@ -1,4 +1,4 @@
-- allow creating chatrooms
 - allow inviting users
+- permissions
 - add hide/favourite buttons to links
 - fetch url HEAD to sniff out images that do not have extension

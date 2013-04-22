@@ -37,12 +37,11 @@
 </template>
 
 <template name="spaceList">
-  <h1>My Small Spaces</h1>
+  <h1>My Small Spaces <button class="btn btn-small new">new</button></h1>
   <ul>
     {{#each spaces}}
     <li><a href="{{_id}}">{{name}}</a></li>
     {{/each}}
-    <li><button class="btn btn-small new">new</button></li>
   </ul>
 </template>
 
