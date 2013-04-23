@@ -83,8 +83,26 @@ if (Meteor.isServer) {
         to: to,
         from: "rcyeske+server@gmail.com",
         subject: "invitation to '" + space.name + "'",
-        text: "You are invited to " + space.name + "!\n\n" 
+        text: "You are invited to " + space.name + "!\n\n"
           + "Visit " + process.env.ROOT_URL + "/" + space._id + "/invite/" + inviteId
+      });
+
+    },
+
+    acceptInvite: function(invitation) {
+      if (!invitation)
+        throw new Meteor.Error(400, 'arg error');
+
+      // remove invitation and create membership for current user
+      // XXX could validate that invitation email address matches this.user's email address
+
+      Invites.remove(invitation._id);
+
+      return Memberships.insert({
+        created: Date.now(),
+        updated: Date.now(),
+        userId: this.userId,
+        spaceId: invitation.spaceId
       });
 
     }

@@ -45,7 +45,7 @@
 
   <ul>
     {{#each invitations}}
-    <li>{{email}} was invited to {{spaceId}} by {{invitedBy}} on {{created}}</li>
+      {{> myInvitiationItem}}
     {{/each}}
   </ul>
 
@@ -56,6 +56,13 @@
   </ul>
 </template>
 
+<template name="myInvitiationItem">
+  <li>
+    You ({{email}}) were invited to <b>{{spaceName spaceId}}</b> by <b>{{userName invitedBy}}</b> {{fromNow created}}.
+    <a href="#" class="accept">Accept invitation</a>.
+  </li>
+</template>
+
 <template name="spaceListItem">
   <li class="span2">
     <div class="thumbnail {{isInvited}}">
@@ -63,12 +70,6 @@
       <h3>{{name}}</h3>
       <p>last activity {{updated}}</p>
       <p>{{description}}</p>
-      {{#if isInvited}}
-        <hr>
-        <p>You have been invited to this space:</p>
-        <button class="accept-invite  btn btn-small btn-primary">accept</button>
-        <button class="decline-invite btn btn-small">decline</button>
-      {{/if}}
     </div>
   </li>
 </template>
@@ -85,7 +86,7 @@
     </div>
   {{else}}
     <div>
-      sorry you are not allowed here
+      you don't have permission to view this space
     </div>
   {{/if}}
 </template>
@@ -134,7 +135,9 @@
 </template>
 
 <template name="inviteListItem">
-  <li><b>{{email}}</b> was invited {{when}}. <a href="#" class="cancel">cancel invitation</a></li>
+  <li>
+    <b>{{email}}</b> was invited {{when}}. <a href="#" class="cancel">cancel invitation</a>
+  </li>
 </template>
 
 

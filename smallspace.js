@@ -27,6 +27,18 @@ if (Meteor.isClient) {
     return Session.get('currentSpace');
   });
 
+  Handlebars.registerHelper("spaceName", function(id) {
+    var space = Spaces.findOne(id);
+    return space && space.name;
+  });
+  Handlebars.registerHelper("userName", function(id) {
+    var user = Meteor.users.findOne(id);
+    return user && user.username;
+  });
+  Handlebars.registerHelper("fromNow", function(timestamp) {
+    return moment(timestamp).fromNow();
+  });
+
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
@@ -54,6 +66,14 @@ if (Meteor.isClient) {
         return true;
     }
     return false;
+  }
+
+  // Template.myInvitiationItem.
+  Template.myInvitiationItem.events = {
+    'click a.accept': function(e) {
+      Meteor.call('acceptInvite', this)
+      return false;
+    }
   }
 
   Template.spaceList.memberSpaces = function() {
@@ -292,14 +312,6 @@ if (Meteor.isServer) {
     if (user)
       return Invites.find({email: user.emails[0].address});
   });
-  // Meteor.publish('current-invite', function(inviteId) {
-  //   console.log('publish current-invite',inviteId);
-  //   return Invites.find(inviteId);
-  // });
-  // Meteor.publish('current-space', function(spaceId) {
-  //   console.log('publish current-space', spaceId);
-  //   return Spaces.find(spaceId);
-  // });    
 
   Meteor.publish('spaces', function(spaceIds) {
     return Spaces.find({_id: {$in: spaceIds}});
