@@ -7,20 +7,20 @@
     <div class="row">
       {{> header}}
     </div>
-    {{#if currentUser}}
-      {{#if currentSpace}}
-        {{> space}}
-      {{else}}
-        {{> spaceList}}
-      {{/if}}
+    {{#if currentSpace}}
+      {{> space}}
     {{else}}
-      {{#unless loggingIn}}
-      <div class="hero-unit">
-        <h1>Welcome to smallspace</h1>
-        <p></p>
-        <img src="http://lorempixel.com/1200/400" />
-      </div>
-      {{/unless}}
+      {{#if currentUser}}
+        {{> spaceList}}
+      {{else}}
+        {{#unless loggingIn}}
+        <div class="hero-unit">
+          <h1>Welcome to smallspace</h1>
+          <p></p>
+          <img src="http://lorempixel.com/1200/400" />
+        </div>
+        {{/unless}}
+      {{/if}}
     {{/if}}
   </div>
 </body>
@@ -43,8 +43,14 @@
   <p class="lead">Welcome to smallspace.</p>
   <hr>
 
+  <ul>
+    {{#each invitations}}
+    <li>{{email}} was invited to {{spaceId}} by {{invitedBy}} on {{created}}</li>
+    {{/each}}
+  </ul>
+
   <ul class="thumbnails">
-    {{#each spaces}}
+    {{#each memberSpaces}}
       {{> spaceListItem}}
     {{/each}}
   </ul>
@@ -68,7 +74,7 @@
 </template>
 
 <template name="space">
-  {{#if isMember}}
+  {{#if isMemberOrInvited}}
     <div class="row">
       <div class="span6">
         {{> chatWindow}}

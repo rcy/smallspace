@@ -73,24 +73,20 @@ if (Meteor.isServer) {
 
       console.log('mailurl:',process.env.MAIL_URL);
 
-      //if (Invites.findOne({and: [{email: to}, {spaceId: space.id}]})
+      // create invitation record
+      var inviteId = Invites.insert({ email: to,
+                                      spaceId: space._id,
+                                      invitedBy: this.userId,
+                                      created: Date.now() });
 
       Email.send({
         to: to,
         from: "rcyeske+server@gmail.com",
         subject: "invitation to '" + space.name + "'",
         text: "You are invited to " + space.name + "!\n\n" 
-          + "Visit " + process.env.ROOT_URL + "/" + space._id
+          + "Visit " + process.env.ROOT_URL + "/" + space._id + "/invite/" + inviteId
       });
 
-      // create or update invitation record
-      Invites.update({ email: to, 
-                       spaceId: space._id},
-                     { $set: { email: to,
-                               spaceId: space._id,
-                               invitedBy: this.userId,
-                               created: Date.now() }},
-                     { upsert: true});
     }
   });
 }

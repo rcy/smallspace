@@ -42,12 +42,27 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.space.isMember = function() {
-    return Memberships.findOne({spaceId: Session.get('currentSpace'), userId: Meteor.userId()});
+  Template.space.isMemberOrInvited = function() {
+    var isMember = Memberships.findOne({spaceId: Session.get('currentSpace'), userId: Meteor.userId()});
+    if (isMember)
+      return true;
+    else {
+      // see if there is an existing invite on the space with the correct id
+      var isInvited = Invites.findOne({_id: Session.get('currentInviteId'), spaceId: Session.get('currentSpace')});
+      console.log('isInvited', isInvited);
+      if (isInvited)
+        return true;
+    }
+    return false;
   }
 
-  Template.spaceList.spaces = function() {
-    return Spaces.find();
+  Template.spaceList.memberSpaces = function() {
+    var spaceIds = _.pluck(Memberships.find().fetch(), 'spaceId');
+    return Spaces.find({_id: {$in: spaceIds}});
+  }
+  Template.spaceList.invitations = function() {
+    var email = Meteor.user().emails && Meteor.user().emails[0].address;
+    return email && Invites.find({email: email});
   }
   Template.spaceList.events = {
     'click .new': function(e) {
@@ -227,17 +242,26 @@ if (Meteor.isClient) {
   var SpaceRouter = Backbone.Router.extend({
     routes: {
       "": "menu",
+      ":spaceId/invite/:inviteId": "invite",
       ":spaceId": "main"
     },
+
     menu: function() {
       Session.set('currentSpace', null);
     },
+
+    invite: function(spaceId, inviteId) {
+      Session.set('currentSpace', spaceId);
+      Session.set('currentInviteId', inviteId);
+    },
+
     main: function(spaceId) {
       var oldSpace = Session.get('currentSpace');
       if (oldSpace !== spaceId) {
         Session.set('currentSpace', spaceId);
       }
     },
+
     setSpace: function(spaceId) {
       this.navigate(spaceId, true);
     }
@@ -268,6 +292,15 @@ if (Meteor.isServer) {
     if (user)
       return Invites.find({email: user.emails[0].address});
   });
+  // Meteor.publish('current-invite', function(inviteId) {
+  //   console.log('publish current-invite',inviteId);
+  //   return Invites.find(inviteId);
+  // });
+  // Meteor.publish('current-space', function(spaceId) {
+  //   console.log('publish current-space', spaceId);
+  //   return Spaces.find(spaceId);
+  // });    
+
   Meteor.publish('spaces', function(spaceIds) {
     return Spaces.find({_id: {$in: spaceIds}});
   });
