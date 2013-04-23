@@ -109,7 +109,7 @@
 
 <template name="users">
   <h4>Members</h4>
-  <ul>
+  <ul class="thumbnails">
     {{#each members}}
       {{> memberListItem}}
     {{/each}}
@@ -121,6 +121,7 @@
     <input type="email" />
     <button class="btn" type="submit">Send</button>
   </form>
+
   <ul>
     {{#each invites}}
       {{> inviteListItem}}
@@ -131,7 +132,12 @@
 </template>
 
 <template name="memberListItem">
-  <li>{{username}}</li>
+  <li class="span2">
+    <div class="thumbnail">
+      <img src="{{avatar userId}}" width="100%">
+      <h4 class="text-center">{{username}}</h4>
+    </div>
+  </li>
 </template>
 
 <template name="inviteListItem">
@@ -144,7 +150,7 @@
 <template name="links">
   <div class="links">
     {{#each links}}
-    {{> link}}
+      {{> link}}
     {{/each}}
   </div>
 </template>
@@ -154,13 +160,22 @@
     {{#if inline}}
     <div>{{{inline}}}</div>
     {{/if}}
-    <div>{{{link}}}</div>
-    <div>
-      posted by <strong>{{user}}</strong> {{when}}
-      {{#if isOwner}}
-        <a href="#" class="small delete">remove</a>
-      {{/if}}
+
+    <div class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object" src="{{avatar userId}}" width="32" height="32" />
+      </a>
+      <div class="media-body">
+        <div>{{{link}}}</div>
+        <div>
+          posted by <strong>{{user}}</strong> {{when}}
+          {{#if isOwner}}
+          <a href="#" class="small delete">remove</a>
+          {{/if}}
+        </div>
+      </div>
     </div>
+
   </div>
   <hr>
 </template>
