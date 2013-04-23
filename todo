@@ -1,4 +1,9 @@
-- permissions
+- add expanded and compact variants to chat messages
+- show who is signed in in a space
+- make alert sounds
+- indicate in title/tab name the number of messages/notifications
+- implement space deletion
+
 
 - add hide/favourite buttons to links
 - fetch url HEAD to sniff out images that do not have extension

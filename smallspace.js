@@ -22,23 +22,6 @@ if (Meteor.isClient) {
   // XXX this is BAD
   Meteor.subscribe('allUserData');
 
-
-  Handlebars.registerHelper("currentSpace", function() {
-    return Session.get('currentSpace');
-  });
-
-  Handlebars.registerHelper("spaceName", function(id) {
-    var space = Spaces.findOne(id);
-    return space && space.name;
-  });
-  Handlebars.registerHelper("userName", function(id) {
-    var user = Meteor.users.findOne(id);
-    return user && user.username;
-  });
-  Handlebars.registerHelper("fromNow", function(timestamp) {
-    return moment(timestamp).fromNow();
-  });
-
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
@@ -253,7 +236,7 @@ if (Meteor.isClient) {
   scrollChat = function() {
     var $chat = $('.chat-container .chat');
     if (($chat.scrollTop() === 0)
-        || (25 + $chat.scrollTop()) >= ($chat.prop('scrollHeight') - $chat.prop('offsetHeight'))) {
+        || (50 + $chat.scrollTop()) >= ($chat.prop('scrollHeight') - $chat.prop('offsetHeight'))) {
       $chat.scrollTop(1000000);
     }
   }
