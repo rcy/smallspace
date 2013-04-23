@@ -157,9 +157,6 @@
 
 <template name="link">
   <div class="link">
-    {{#if inline}}
-    <div>{{{inline}}}</div>
-    {{/if}}
 
     <div class="media">
       <a class="pull-left" href="#">
@@ -173,6 +170,9 @@
           <a href="#" class="small delete">remove</a>
           {{/if}}
         </div>
+        {{#if inline}}
+          <div>{{{inline}}}</div>
+        {{/if}}
       </div>
     </div>
 
