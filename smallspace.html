@@ -7,29 +7,45 @@
     <div class="row">
       {{> header}}
     </div>
-    {{#ifPage 'invite'}}
-      invite page
-    {{/ifPage}}
-
-    {{#ifPage 'space'}}
-      {{> space}}
-    {{/ifPage}}
-
-    {{#ifPage 'home'}}
-      {{#if currentUser}}
-        {{> spaceList}}
-      {{else}}
-        {{#unless loggingIn}}
-        <div class="hero-unit">
-          <h1>Welcome to smallspace</h1>
-          <p></p>
-          <img src="http://lorempixel.com/1200/400" />
-        </div>
-        {{/unless}}
-      {{/if}}
-    {{/ifPage}}
+    {{#unless loggingIn}}
+      {{> pageDispatch}}
+    {{/unless}}
   </div>
 </body>
+
+<template name="pageDispatch">
+  {{#ifPage 'invite'}}
+    {{> invite}}
+  {{/ifPage}}
+
+  {{#ifPage 'space'}}
+    {{> space}}
+  {{/ifPage}}
+
+  {{#ifPage 'home'}}
+    {{#if currentUser}}
+      {{> spaceList}}
+    {{else}}
+      {{#unless loggingIn}}
+      <div class="hero-unit">
+        <h1>Welcome to smallspace</h1>
+        <p></p>
+        <img src="http://lorempixel.com/1200/400" />
+      </div>
+      {{/unless}}
+    {{/if}}
+  {{/ifPage}}
+</template>
+
+<template name="invite">
+  {{#if currentUser}}
+    Thanks for signing up.
+  {{else}}
+  <p class="lead">
+    Sign in to accept invitation.
+  </p>
+  {{/if}}
+</template>
 
 <template name="header">
   <h2>
@@ -63,8 +79,12 @@
 </template>
 
 <template name="myInvitiationItem">
-  {{calendar created}}: You were invited to <b>{{spaceName spaceId}}</b> by <b>{{userName invitedBy}}</b>.
-  <a href="#" class="accept">Accept invitation</a>.
+  <p class="pull-right">{{calendar created}}</p>
+  <p class="lead">
+    <b>{{userName invitedBy}}</b> invited you to <b>{{spaceName spaceId}}</b>
+  </p>
+
+  <a href="#" class="accept">Accept invitation</a>
 </template>
 
 <template name="spaceListItem">

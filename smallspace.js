@@ -43,7 +43,10 @@ if (Meteor.isClient) {
 
   Template.myInvitiationItem.events = {
     'click a.accept': function(e) {
-      Meteor.call('acceptInvite', this)
+      var invitation = this;
+      Meteor.call('acceptInvite', invitation, function(err, result) {
+        Router.setSpace(invitation.spaceId);
+      });
       return false;
     }
   }
@@ -52,9 +55,11 @@ if (Meteor.isClient) {
     var spaceIds = _.pluck(Memberships.find().fetch(), 'spaceId');
     return Spaces.find({_id: {$in: spaceIds}});
   }
+
   Template.spaceList.invitations = function() {
-    var email = Meteor.user().emails && Meteor.user().emails[0].address;
-    return email && Invites.find({email: email});
+    return Invites.find({ $or: [ { email: Meteor.user().emails[0].address },
+                                 { userId: Meteor.userId() } ]
+                        });
   }
   Template.spaceList.events = {
     'click .new': function(e) {
@@ -165,6 +170,13 @@ if (Meteor.isClient) {
     }
   };
 
+  // XXX this is a hack to redirect back to home page after signing up from invite link
+  // need to figure out how to catch signin/signup event
+  Template.invite.rendered = function() {
+    if (Meteor.userId()) {
+      Router.setSpace(null);
+    }
+  }
 
   // XXX use a generic date helper for this:
   Template.inviteListItem.when = function() {
@@ -252,8 +264,15 @@ if (Meteor.isClient) {
 
     invite: function(spaceId, inviteId) {
       Session.set('currentSpace', null);
-      Session.set('currentInviteId', inviteId);
-      Session.set('page', 'invite');
+      if (Meteor.userId()) {
+        // make sure this invite is valid for this user
+        Invites.update(inviteId, { $set: { userId: Meteor.userId() } });
+
+        Session.set('page', 'home');
+      } else {
+        Session.set('currentInviteId', inviteId);
+        Session.set('page', 'invite');
+      }
     },
 
     main: function(spaceId) {
@@ -292,7 +311,9 @@ if (Meteor.isServer) {
     console.log('publish my-invites', this.userId)
     var user = Meteor.users.findOne(this.userId);
     if (user)
-      return Invites.find({email: user.emails[0].address});
+      return Invites.find({ $or: [ { email: user.emails[0].address },
+                                   { userId: user._id } ]
+                          });
   });
 
   Meteor.publish('spaces', function(spaceIds) {
