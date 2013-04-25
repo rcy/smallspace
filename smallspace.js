@@ -37,18 +37,8 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.space.isMemberOrInvited = function() {
-    var isMember = Memberships.findOne({spaceId: Session.get('currentSpace'), userId: Meteor.userId()});
-    if (isMember)
-      return true;
-    else {
-      // see if there is an existing invite on the space with the correct id
-      var isInvited = Invites.findOne({_id: Session.get('currentInviteId'), spaceId: Session.get('currentSpace')});
-      console.log('isInvited', isInvited);
-      if (isInvited)
-        return true;
-    }
-    return false;
+  Template.space.isMember = function() {
+    return Memberships.findOne({spaceId: Session.get('currentSpace'), userId: Meteor.userId()});
   }
 
   Template.myInvitiationItem.events = {
@@ -257,11 +247,13 @@ if (Meteor.isClient) {
 
     menu: function() {
       Session.set('currentSpace', null);
+      Session.set('page', 'home');
     },
 
     invite: function(spaceId, inviteId) {
-      Session.set('currentSpace', spaceId);
+      Session.set('currentSpace', null);
       Session.set('currentInviteId', inviteId);
+      Session.set('page', 'invite');
     },
 
     main: function(spaceId) {
@@ -269,6 +261,7 @@ if (Meteor.isClient) {
       if (oldSpace !== spaceId) {
         Session.set('currentSpace', spaceId);
       }
+      Session.set('page', 'space');
     },
 
     setSpace: function(spaceId) {

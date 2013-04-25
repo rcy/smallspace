@@ -7,9 +7,15 @@
     <div class="row">
       {{> header}}
     </div>
-    {{#if currentSpace}}
+    {{#ifPage 'invite'}}
+      invite page
+    {{/ifPage}}
+
+    {{#ifPage 'space'}}
       {{> space}}
-    {{else}}
+    {{/ifPage}}
+
+    {{#ifPage 'home'}}
       {{#if currentUser}}
         {{> spaceList}}
       {{else}}
@@ -21,7 +27,7 @@
         </div>
         {{/unless}}
       {{/if}}
-    {{/if}}
+    {{/ifPage}}
   </div>
 </body>
 
@@ -72,7 +78,7 @@
 </template>
 
 <template name="space">
-  {{#if isMemberOrInvited}}
+  {{#if isMember}}
     <div class="row">
       <div class="span6">
         {{> chatWindow}}
@@ -145,7 +151,7 @@
   <li class="span2">
     <div class="thumbnail">
       <img src="{{avatar userId}}" width="100%">
-      <h4 class="text-center">{{username}}</h4>
+      <h6 class="text-center">{{username}}</h6>
     </div>
   </li>
 </template>

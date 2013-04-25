@@ -38,3 +38,10 @@ Handlebars.registerHelper("isCurrentUser", function(userId, block) {
   else
     return block.inverse(this);
 });
+
+Handlebars.registerHelper("ifPage", function(pageName, block) {
+  if (Session.equals('page', pageName))
+    return block(this);
+  else
+    return block.inverse(this);
+});
