@@ -16,6 +16,13 @@ if (Meteor.isClient) {
     Meteor.subscribe('spaces', spaceIds);
   });
 
+  Deps.autorun(function() {
+    var inviteId = Session.get('currentInviteId');
+    var userId = Meteor.userId();
+    // make sure this current invite is set to this user
+    Invites.update(inviteId, { $set: { userId: Meteor.userId() } });
+  });
+
   Meteor.subscribe('my-memberships');
   Meteor.subscribe('my-invites');
 
@@ -265,9 +272,6 @@ if (Meteor.isClient) {
     invite: function(spaceId, inviteId) {
       Session.set('currentSpace', null);
       if (Meteor.userId()) {
-        // make sure this invite is valid for this user
-        Invites.update(inviteId, { $set: { userId: Meteor.userId() } });
-
         Session.set('page', 'home');
       } else {
         Session.set('currentInviteId', inviteId);

@@ -73,22 +73,23 @@ if (Meteor.isServer) {
       // without waiting for the email sending to complete.
       this.unblock();
 
-      console.log('mailurl:',process.env.MAIL_URL);
-
-      // create invitation record
-      var inviteId = Invites.insert({ email: to,
-                                      spaceId: space._id,
-                                      invitedBy: this.userId,
-                                      created: Date.now() });
+      var inviteId = Random.id();
+      var user = Meteor.users.findOne(this.userId);
 
       Email.send({
         to: to,
         from: "rcyeske+server@gmail.com",
         subject: "invitation to '" + space.name + "'",
-        text: "You are invited to " + space.name + "!\n\n"
+        text: user.username + " invited you to " + space.name + "!\n\n"
           + "Visit " + process.env.ROOT_URL + "/" + space._id + "/invite/" + inviteId
       });
 
+      // create invitation record
+      Invites.insert({ _id: inviteId,
+                       email: to,
+                       spaceId: space._id,
+                       invitedBy: this.userId,
+                       created: Date.now() });
     },
 
     acceptInvite: function(invitation) {
