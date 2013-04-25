@@ -5,6 +5,7 @@
 - invite by username
 - my profile page (at least link to gravatar)
 - BUG: scroll to bottom doesnt work when first visiting page because of img loading, find better way to do chat window
+- md5 gravatar urls recomputed over and over
 
 - add hide/favourite buttons to links
 - fetch url HEAD to sniff out images that do not have extension
