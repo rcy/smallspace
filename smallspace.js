@@ -238,7 +238,7 @@ if (Meteor.isClient) {
     var top = $('.chat-container .chat').position().top;
     var bot = $('.chat-container form').position().top;
     $('.chat-container .chat').height(bot - top);
-    $('.links').height(bot-top);
+    $('.rightSideNav').height(bot-top);
   }
 
   scrollChat = function() {
