@@ -93,7 +93,7 @@ if (Meteor.isClient) {
   }
 
   Template.chatWindow.messages = function() {
-    return Messages.find();
+    return Messages.find({spaceId: Session.get('currentSpace')});
   }
   Template.chatWindow.events = {
     "submit form": function(e) {
@@ -140,7 +140,7 @@ if (Meteor.isClient) {
   }
 
   Template.links.links = function() {
-    return Links.find({}, {sort: {created: -1}, limit: 30});
+    return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
   }
   Template.link.isOwner = function() {
     return this.userId === Meteor.userId();
