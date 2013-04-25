@@ -117,7 +117,7 @@
 <template name="rightSideNav">
   <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#links" data-toggle="tab">Links</a></li>
-    <li><a href="#users" data-toggle="tab">Users</a></li>
+    <li><a href="#members" data-toggle="tab">Members</a></li>
     {{#isCurrentUser userId}}
     <li class="pull-right"><a href="#admin" data-toggle="tab">Admin</a></li>
     {{/isCurrentUser}}
@@ -127,8 +127,8 @@
     <div class="tab-pane active" id="links">
       {{> links}}
     </div>
-    <div class="tab-pane" id="users">
-      {{> users}}
+    <div class="tab-pane" id="members">
+      {{> members}}
     </div>
     {{#isCurrentUser userId}}
     <div class="tab-pane" id="admin">
@@ -143,10 +143,9 @@
   <button class="btn btn-danger delete">permanently delete space</button>
 </template>
 
-<template name="users">
-  <h4>Members</h4>
+<template name="members">
   <ul class="thumbnails">
-    {{#each members}}
+    {{#each memberList}}
       {{> memberListItem}}
     {{/each}}
   </ul>

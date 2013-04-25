@@ -198,7 +198,7 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.users.members = function() {
+  Template.members.memberList = function() {
     return Memberships.find({spaceId: Session.get('currentSpace')});
   }
   Template.memberListItem.username = function() {
@@ -206,10 +206,10 @@ if (Meteor.isClient) {
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
-  Template.users.invites = function() {
+  Template.members.invites = function() {
     return Invites.find({spaceId: Session.get('currentSpace')});
   }
-  Template.users.events = {
+  Template.members.events = {
     "submit form.invite": function(e) {
       e.preventDefault();
       var $inp = $(e.target).find('input');
