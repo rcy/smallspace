@@ -261,7 +261,9 @@ if (Meteor.isClient) {
     routes: {
       "": "menu",
       ":spaceId/invite/:inviteId": "invite",
-      ":spaceId": "main"
+
+      ":spaceId": "main",
+      ":spaceId/:slug": "main",
     },
 
     menu: function() {
@@ -288,7 +290,12 @@ if (Meteor.isClient) {
     },
 
     setSpace: function(spaceId) {
-      this.navigate(spaceId, true);
+      var path = spaceId;
+      var space = Spaces.findOne(spaceId);
+      if (space)
+        path += '/' + slugify(space.name);
+
+      this.navigate(path, true);
     }
   });
   Router = new SpaceRouter;
