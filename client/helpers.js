@@ -13,6 +13,9 @@ Handlebars.registerHelper("userName", function(id) {
 Handlebars.registerHelper("fromNow", function(timestamp) {
   return moment(timestamp).fromNow();
 });
+Handlebars.registerHelper("calendar", function(timestamp) {
+  return moment(timestamp).calendar();
+});
 
 // XXX don't compute md5 and url everytime
 Handlebars.registerHelper("avatar", function(userId, size) {

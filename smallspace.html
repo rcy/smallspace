@@ -43,11 +43,11 @@
   <p class="lead">Welcome to smallspace.</p>
   <hr>
 
-  <ul>
-    {{#each invitations}}
-      {{> myInvitiationItem}}
-    {{/each}}
-  </ul>
+  {{#each invitations}}
+  <div class="alert">
+    {{> myInvitiationItem}}
+  </div>
+  {{/each}}
 
   <ul class="thumbnails">
     {{#each memberSpaces}}
@@ -57,10 +57,8 @@
 </template>
 
 <template name="myInvitiationItem">
-  <li>
-    You ({{email}}) were invited to <b>{{spaceName spaceId}}</b> by <b>{{userName invitedBy}}</b> {{fromNow created}}.
-    <a href="#" class="accept">Accept invitation</a>.
-  </li>
+  {{calendar created}}: You <i>({{email}})</i> were invited to <b>{{spaceName spaceId}}</b> by <b>{{userName invitedBy}}</b>.
+  <a href="#" class="accept">Accept invitation</a>.
 </template>
 
 <template name="spaceListItem">
@@ -94,7 +92,9 @@
   <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#links" data-toggle="tab">Links</a></li>
     <li><a href="#users" data-toggle="tab">Users</a></li>
-    {{#isCurrentUser userId}}<li><a href="#admin" data-toggle="tab">Admin</a></li>{{/isCurrentUser}}
+    {{#isCurrentUser userId}}
+    <li class="pull-right"><a href="#admin" data-toggle="tab">Admin</a></li>
+    {{/isCurrentUser}}
   </ul>
 
   <div class="tab-content">
