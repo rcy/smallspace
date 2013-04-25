@@ -352,4 +352,10 @@ if (Meteor.isServer) {
     // code to run on server at startup
     //console.log(process.env);
   });
+
+  Invites.allow({
+    update: function() {
+      return true;
+    }
+  });
 }
