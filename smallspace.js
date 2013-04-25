@@ -30,9 +30,11 @@ if (Meteor.isClient) {
 
   Deps.autorun(function() {
     var inviteId = Session.get('currentInviteId');
-    var userId = Meteor.userId();
-    // make sure this current invite is set to this user
-    Invites.update(inviteId, { $set: { userId: Meteor.userId() } });
+    if (inviteId) {
+      var userId = Meteor.userId();
+      // make sure this current invite is set to this user
+      Invites.update(inviteId, { $set: { userId: Meteor.userId() } });
+    }
   });
 
   Meteor.subscribe('my-memberships');
