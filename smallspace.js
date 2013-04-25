@@ -1,11 +1,15 @@
 if (Meteor.isClient) {
+
+  // update title and navigation when visiting a space
   Deps.autorun(function () {
     var space = Spaces.findOne(Session.get("currentSpace"));
-    if (space)
+    if (space) {
       document.title = space.name;
-    else
+      Router.navigate(space._id + '/' + slugify(space.name))
+    } else
       document.title = "smallspace";
   });
+
 
   Deps.autorun(function() {
     var spaceId = Session.get('currentSpace');
