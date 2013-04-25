@@ -85,13 +85,6 @@ if (Meteor.isClient) {
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
-  Template.spaceListItem.isInvited = function() {
-    var user = Meteor.user();
-    if (user) {
-      var invites = Invites.find({email: user.emails[0].address}).fetch();
-      return _.contains(_.pluck(invites, 'spaceId'), this._id);
-    }
-  }
   Template.spaceListItem.events = {
     'click': function(e) {
       Router.setSpace(this._id);
