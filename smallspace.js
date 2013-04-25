@@ -51,7 +51,6 @@ if (Meteor.isClient) {
     return false;
   }
 
-  // Template.myInvitiationItem.
   Template.myInvitiationItem.events = {
     'click a.accept': function(e) {
       Meteor.call('acceptInvite', this)
@@ -110,6 +109,10 @@ if (Meteor.isClient) {
   Template.chatWindow.rendered = function() {
     resizeChat();
     scrollChat();
+  }
+
+  Template.rightSideNav.rendered = function() {
+    resizeChat();
   }
 
   Template.message.when = function() {
