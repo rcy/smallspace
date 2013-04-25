@@ -150,18 +150,16 @@
     {{/each}}
   </ul>
 
-  <h4>Invitations</h4>
+  <hr>
   <form class="invite form-inline">
     <label>Invite by email:</label>
     <input type="email" />
-    <button class="btn" type="submit">Send</button>
+    <button class="btn" type="submit">Send Invitation</button>
   </form>
 
   <ul>
     {{#each invites}}
       {{> inviteListItem}}
-    {{else}}
-      <em>No current invitations</em>
     {{/each}}
   </ul>
 </template>
