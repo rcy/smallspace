@@ -62,6 +62,11 @@ Meteor.methods({
 
     return spaceId;
   },
+
+  deleteSpace: function(spaceId) {
+    Spaces.update(spaceId, { $set: { deleted: true } } );
+  }
+
 });
 
 if (Meteor.isServer) {

@@ -131,6 +131,19 @@ if (Meteor.isClient) {
     return user && user.username;
   }
 
+  Template.rightSideNav.userId = function() {
+    var space = Spaces.findOne(Session.get('currentSpace'));
+    return space && space.userId;
+  }
+  Template.admin.events = {
+    'click .delete': function(e) {
+      if (confirm('delete space permanently?')) {
+        Meteor.call('deleteSpace', Session.get('currentSpace'));
+        Router.setSpace(null);
+      }
+    }
+  }
+
   Template.links.links = function() {
     return Links.find({}, {sort: {created: -1}, limit: 30});
   }
@@ -297,7 +310,7 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('spaces', function(spaceIds) {
-    return Spaces.find({_id: {$in: spaceIds}});
+    return Spaces.find({_id: {$in: spaceIds}, deleted: {$ne : true} } );
   });
   Meteor.publish('allUserData', function() {
     return Meteor.users.find();

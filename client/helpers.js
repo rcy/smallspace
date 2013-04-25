@@ -26,3 +26,12 @@ Handlebars.registerHelper("avatar", function(userId, size) {
     return "http://www.gravatar.com/avatar?d=mm&f=y&s=100"
   }
 });
+
+// block helper for testing current user
+Handlebars.registerHelper("isCurrentUser", function(userId, block) {
+  console.log('isUser', Meteor.userId(), userId);
+  if (Meteor.userId() === userId)
+    return block(this);
+  else
+    return block.inverse(this);
+});

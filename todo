@@ -1,8 +1,8 @@
-- add expanded and compact variants to chat messages
+- implement space deletion
 - show who is signed in in a space
 - make alert sounds
 - indicate in title/tab name the number of messages/notifications
-- implement space deletion
+- add expanded and compact variants to chat messages
 
 
 - add hide/favourite buttons to links

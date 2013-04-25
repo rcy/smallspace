@@ -67,7 +67,7 @@
   <li class="span2">
     <div class="thumbnail {{isInvited}}">
       <img width="200px" src="{{image}}" alt="">
-      <h3>{{name}}</h3>
+      <h3>{{name}} {{deleted}}</h3>
       <p>last activity {{updated}}</p>
       <p>{{description}}</p>
     </div>
@@ -95,6 +95,7 @@
   <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#links" data-toggle="tab">Links</a></li>
     <li><a href="#users" data-toggle="tab">Users</a></li>
+    {{#isCurrentUser userId}}<li><a href="#admin" data-toggle="tab">Admin</a></li>{{/isCurrentUser}}
   </ul>
 
   <div class="tab-content">
@@ -104,7 +105,17 @@
     <div class="tab-pane" id="users">
       {{> users}}
     </div>
+    {{#isCurrentUser userId}}
+    <div class="tab-pane" id="admin">
+      {{> admin}}
+    </div>
+    {{/isCurrentUser}}
   </div>
+</template>
+
+<template name="admin">
+  <h4>Admin</h4>
+  <button class="btn btn-danger delete">permanently delete space</button>
 </template>
 
 <template name="users">
