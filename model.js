@@ -19,9 +19,6 @@ Meteor.methods({
       spaceId: object.spaceId
     });
 
-    // touch the space update stamp
-    Spaces.update(object.spaceId, {$set: {updated: Date.now()}});
-
     if (!this.isSimulation) {
       var links = extractLinks(object.text);
       _.each(links, function(link) {

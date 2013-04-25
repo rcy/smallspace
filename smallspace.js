@@ -85,9 +85,6 @@ if (Meteor.isClient) {
     var user = Meteor.users.findOne(this.userId);
     return user && user.username;
   }
-  Template.spaceListItem.updated = function() {
-    return this.updated && moment(this.updated).fromNow();
-  }
   Template.spaceListItem.isInvited = function() {
     var user = Meteor.user();
     if (user) {
