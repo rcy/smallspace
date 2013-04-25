@@ -1,4 +1,12 @@
 if (Meteor.isClient) {
+  Deps.autorun(function () {
+    var space = Spaces.findOne(Session.get("currentSpace"));
+    if (space)
+      document.title = space.name;
+    else
+      document.title = "smallspace";
+  });
+
   Deps.autorun(function() {
     var spaceId = Session.get('currentSpace');
     if (spaceId) {
