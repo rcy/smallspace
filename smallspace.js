@@ -337,8 +337,15 @@ if (Meteor.isServer) {
   });
 
   Invites.allow({
-    update: function() {
+    update: function(userId, doc, fields, modifier) {
       return true;
+    }
+  });
+
+  Links.allow({
+    remove: function(userId, doc) {
+      // you own it, you can delete it
+      return (doc.userId === userId);
     }
   });
 }
