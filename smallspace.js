@@ -142,7 +142,7 @@ if (Meteor.isClient) {
         Router.setSpace(null);
       }
     }
-  });
+  }
 
   Template.links.links = function() {
     return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
