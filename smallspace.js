@@ -95,11 +95,7 @@ if (Meteor.isClient) {
   Template.spaceListItem.image = function() {
     return this.image || 'http://www.gravatar.com/avatar/'+md5(this._id)+'.jpg?d=monsterid&s=200'
   }
-  Template.spaceListItem.createdBy = function() {
-    // XXX generalize this
-    var user = Meteor.users.findOne(this.userId);
-    return user && user.username;
-  }
+
   Template.spaceListItem.events = {
     'click': function(e) {
       Router.setSpace(this._id);
@@ -134,11 +130,6 @@ if (Meteor.isClient) {
   Template.message.when = function() {
     return moment(this.created).format("HH:mm");
   }
-  Template.message.user = function() {
-    // XXX generalize this
-    var user = Meteor.users.findOne(this.userId);
-    return user && user.username;
-  }
 
   Template.rightSideNav.userId = function() {
     var space = Spaces.findOne(Session.get('currentSpace'));
@@ -151,7 +142,7 @@ if (Meteor.isClient) {
         Router.setSpace(null);
       }
     }
-  }
+  });
 
   Template.links.links = function() {
     return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
@@ -159,11 +150,7 @@ if (Meteor.isClient) {
   Template.link.isOwner = function() {
     return this.userId === Meteor.userId();
   }
-  Template.link.user = function() {
-    // XXX generalize this
-    var user = Meteor.users.findOne(this.userId);
-    return user && user.username;
-  }
+
   Template.link.when = function() {
     return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
   }
@@ -215,11 +202,7 @@ if (Meteor.isClient) {
   Template.members.memberList = function() {
     return Memberships.find({spaceId: Session.get('currentSpace')});
   }
-  Template.memberListItem.username = function() {
-    // XXX generalize this
-    var user = Meteor.users.findOne(this.userId);
-    return user && user.username;
-  }
+
   Template.members.invites = function() {
     return Invites.find({spaceId: Session.get('currentSpace')});
   }

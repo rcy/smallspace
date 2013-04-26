@@ -1,3 +1,8 @@
+Handlebars.registerHelper("username", function(userId) {
+  var user = Meteor.users.findOne(this.userId);
+  return user && user.username;
+});
+
 Handlebars.registerHelper("currentSpace", function() {
   return Session.get('currentSpace');
 });

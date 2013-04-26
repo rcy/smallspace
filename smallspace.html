@@ -168,7 +168,7 @@
   <li>
     <div class="thumbnail">
       <img src="{{avatar userId}}" width="100%">
-      <p class="text-center">{{username}}</p>
+      <p class="text-center">{{username userId}}</p>
     </div>
   </li>
 </template>
@@ -198,7 +198,7 @@
       <div class="media-body">
         <div>{{{link}}}</div>
         <div>
-          posted by <strong>{{user}}</strong> {{when}}
+          posted by <strong>{{username userId}}</strong> {{when}}
           {{#if isOwner}}
           <a href="#" class="small delete">remove</a>
           {{/if}}
@@ -235,7 +235,7 @@
       </a>
       <div class="media-body">
         {{when}}
-        &lt;<strong>{{user}}</strong>&gt;
+        &lt;<strong>{{username userId}}</strong>&gt;
         {{text}}
       </div>
     </div>
