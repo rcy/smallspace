@@ -47,10 +47,13 @@ if (Meteor.isClient) {
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
 
-  Template.header.currentSpace = function() {
-    var space = Spaces.findOne({_id: Session.get('currentSpace')})
-    return space && space.name;
-  }
+  Template.header.helpers({
+    currentSpace: function() {
+      var space = Spaces.findOne({_id: Session.get('currentSpace')})
+      return space && space.name;
+    }
+  });
+
   Template.header.events = {
     'click .title': function(e) {
       Router.setSpace(null);
@@ -72,16 +75,19 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.spaceList.memberSpaces = function() {
-    var spaceIds = _.pluck(Memberships.find().fetch(), 'spaceId');
-    return Spaces.find({_id: {$in: spaceIds}});
-  }
+  Template.spaceList.helpers({
+    memberSpaces: function() {
+      var spaceIds = _.pluck(Memberships.find().fetch(), 'spaceId');
+      return Spaces.find({_id: {$in: spaceIds}});
+    },
 
-  Template.spaceList.invitations = function() {
-    return Invites.find({ $or: [ { email: Meteor.user().emails[0].address },
-                                 { userId: Meteor.userId() } ]
-                        });
-  }
+    invitations: function() {
+      return Invites.find({ $or: [ { email: Meteor.user().emails[0].address },
+                                   { userId: Meteor.userId() } ]
+                          });
+    }
+  });
+
   Template.spaceList.events = {
     'click .new': function(e) {
       var name = prompt('new space name:');
@@ -92,9 +98,11 @@ if (Meteor.isClient) {
       return false;
     }
   }
-  Template.spaceListItem.image = function() {
-    return this.image || 'http://www.gravatar.com/avatar/'+md5(this._id)+'.jpg?d=monsterid&s=200'
-  }
+  Template.spaceListItem.helpers({
+    image: function() {
+      return this.image || 'http://www.gravatar.com/avatar/'+md5(this._id)+'.jpg?d=monsterid&s=200'
+    }
+  });
 
   Template.spaceListItem.events = {
     'click': function(e) {
@@ -102,9 +110,11 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.chatWindow.messages = function() {
-    return Messages.find({spaceId: Session.get('currentSpace')});
-  }
+  Template.chatWindow.helpers({
+    messages: function() {
+      return Messages.find({spaceId: Session.get('currentSpace')});
+    }
+  });
   Template.chatWindow.events = {
     "submit form": function(e) {
       var $input = $(e.target).find('input');
@@ -144,33 +154,36 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.links.links = function() {
-    return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
-  }
-  Template.link.isOwner = function() {
-    return this.userId === Meteor.userId();
-  }
-
-  Template.link.when = function() {
-    return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
-  }
-  Template.link.link = function() {
-    return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
-  }
-  Template.link.inline = function() {
-    var match = this.url.match(/youtube.com\/watch\?.*v=(.+)/)
-    if (match) {
-      var video_id = match[1];
-      return '<iframe id="ytplayer" type="text/html" width="400px" height="300px" src="http://www.youtube.com/embed/'+video_id+'?autoplay=0&origin=http://smallspace.meteor.com frameborder="0"/>';
-    } else {
-      var match = this.url.match(/(jpg|gif|png)$/);
+  Template.links.helpers({
+    links: function() {
+      return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
+    }
+  });
+  Template.link.helpers({
+    isOwner: function() {
+      return this.userId === Meteor.userId();
+    },
+    when: function() {
+      return moment(this.created).format("dddd, MMMM Do YYYY, HH:mm");
+    },
+    link: function() {
+      return '<a href="'+this.url+'" target="_blank">'+this.url+'</a>';
+    },
+    inline: function() {
+      var match = this.url.match(/youtube.com\/watch\?.*v=(.+)/)
       if (match) {
-        return '<a href="'+this.url+'" target="_blank"><img src="'+this.url+'" width="50%" /></a>'
+        var video_id = match[1];
+        return '<iframe id="ytplayer" type="text/html" width="400px" height="300px" src="http://www.youtube.com/embed/'+video_id+'?autoplay=0&origin=http://smallspace.meteor.com frameborder="0"/>';
       } else {
-        return '';
+        var match = this.url.match(/(jpg|gif|png)$/);
+        if (match) {
+          return '<a href="'+this.url+'" target="_blank"><img src="'+this.url+'" width="50%" /></a>'
+        } else {
+          return '';
+        }
       }
     }
-  }
+  });
   Template.link.events = {
     'click .delete': function(e) {
       if (confirm('Delete this link? (NOTE: It will remain in the chat log)'))
@@ -199,13 +212,14 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.members.memberList = function() {
-    return Memberships.find({spaceId: Session.get('currentSpace')});
-  }
-
-  Template.members.invites = function() {
-    return Invites.find({spaceId: Session.get('currentSpace')});
-  }
+  Template.members.helpers({
+    memberList: function() {
+      return Memberships.find({spaceId: Session.get('currentSpace')});
+    },
+    invites: function() {
+      return Invites.find({spaceId: Session.get('currentSpace')});
+    }
+  });
   Template.members.events = {
     "submit form.invite": function(e) {
       e.preventDefault();
