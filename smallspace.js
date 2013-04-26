@@ -345,7 +345,7 @@ if (Meteor.isServer) {
     return Spaces.find({_id: {$in: spaceIds}, deleted: {$ne : true} } );
   });
   Meteor.publish('allUserData', function() {
-    return Meteor.users.find();
+    return Meteor.users.find({}, {fields: {username: 1, emails: 1}});
   });
 
   Meteor.startup(function () {
