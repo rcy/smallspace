@@ -145,7 +145,7 @@ if (Meteor.isClient) {
     var space = Spaces.findOne(Session.get('currentSpace'));
     return space && space.userId;
   }
-  Template.admin.events = {
+  Template.adminTab.events = {
     'click .delete': function(e) {
       if (confirm('delete space permanently?')) {
         Meteor.call('deleteSpace', Session.get('currentSpace'));
@@ -154,7 +154,7 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.links.helpers({
+  Template.linksTab.helpers({
     links: function() {
       return Links.find({spaceId: Session.get('currentSpace')}, {sort: {created: -1}, limit: 30});
     }
@@ -212,7 +212,7 @@ if (Meteor.isClient) {
     }
   }
 
-  Template.members.helpers({
+  Template.membersTab.helpers({
     memberList: function() {
       return Memberships.find({spaceId: Session.get('currentSpace')});
     },
@@ -220,7 +220,7 @@ if (Meteor.isClient) {
       return Invites.find({spaceId: Session.get('currentSpace')});
     }
   });
-  Template.members.events = {
+  Template.membersTab.events = {
     "submit form.invite": function(e) {
       e.preventDefault();
       var $inp = $(e.target).find('input');

@@ -116,34 +116,37 @@
 
 <template name="rightSideNav">
   <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a href="#links" data-toggle="tab">Links</a></li>
-    <li><a href="#members" data-toggle="tab">Members</a></li>
+    <li class="active">
+      <a href="#linksTab" data-toggle="tab">Links</a></li>
+    <li>
+      <a href="#membersTab" data-toggle="tab">Members</a></li>
     {{#isCurrentUser userId}}
-    <li class="pull-right"><a href="#admin" data-toggle="tab">Admin</a></li>
+    <li class="pull-right">
+      <a href="#adminTab" data-toggle="tab">Admin</a></li>
     {{/isCurrentUser}}
   </ul>
 
   <div class="rightSideNav tab-content">
-    <div class="tab-pane active" id="links">
-      {{> links}}
+    <div class="tab-pane active" id="linksTab">
+      {{> linksTab}}
     </div>
-    <div class="tab-pane" id="members">
-      {{> members}}
+    <div class="tab-pane" id="membersTab">
+      {{> membersTab}}
     </div>
     {{#isCurrentUser userId}}
-    <div class="tab-pane" id="admin">
-      {{> admin}}
+    <div class="tab-pane" id="adminTab">
+      {{> adminTab}}
     </div>
     {{/isCurrentUser}}
   </div>
 </template>
 
-<template name="admin">
+<template name="adminTab">
   <h4>Admin</h4>
   <button class="btn btn-danger delete">permanently delete space</button>
 </template>
 
-<template name="members">
+<template name="membersTab">
   <ul class="thumbnails">
     {{#each memberList}}
       {{> memberListItem}}
@@ -180,7 +183,7 @@
 </template>
 
 
-<template name="links">
+<template name="linksTab">
   <div class="links">
     {{#each links}}
       {{> link}}
