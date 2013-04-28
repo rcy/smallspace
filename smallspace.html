@@ -117,10 +117,10 @@
 <template name="rightSideNav">
   <ul class="nav nav-tabs" id="myTab">
 
-    <li class="">
+    <li class="active">
       <a href="#linksTab" data-toggle="tab">Links</a></li>
 
-    <li class="active">
+    <li class="">
       <a href="#calendarTab" data-toggle="tab">Calendar</a></li>
 
     <li>
@@ -134,10 +134,10 @@
   </ul>
 
   <div class="rightSideNav tab-content">
-    <div class="tab-pane" id="linksTab">
+    <div class="tab-pane active" id="linksTab">
       {{> linksTab}}
     </div>
-    <div class="tab-pane active" id="calendarTab">
+    <div class="tab-pane" id="calendarTab">
       {{> calendarTab}}
     </div>
     <div class="tab-pane" id="membersTab">
