@@ -20,7 +20,6 @@ Template.calendarTab.rendered = function() {
 
     eventSources: [
       function(start, end, callback) {
-        console.log('calling for events between', start, ' and ', end);
         var events = CalendarEvents.find().fetch();
         callback(events);
       }
@@ -46,7 +45,6 @@ Template.calendarTab.rendered = function() {
     },
 
     eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
-      console.log('dropped', event);
       CalendarEvents.update(event._id, { $set: { start: event.start } });
     }
   });
