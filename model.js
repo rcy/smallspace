@@ -4,6 +4,7 @@ Memberships = new Meteor.Collection("memberships");
 
 Messages = new Meteor.Collection("messages");
 Links = new Meteor.Collection("links");
+CalendarEvents = new Meteor.Collection("calendarEvents");
 
 Meteor.methods({
   post: function(object) {
@@ -63,7 +64,6 @@ Meteor.methods({
   deleteSpace: function(spaceId) {
     Spaces.update(spaceId, { $set: { deleted: true } } );
   }
-
 });
 
 if (Meteor.isServer) {

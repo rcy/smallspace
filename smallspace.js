@@ -18,6 +18,7 @@ if (Meteor.isClient) {
       Meteor.subscribe('links', spaceId);
       Meteor.subscribe('space-invites', spaceId);
       Meteor.subscribe('space-memberships', spaceId);
+      Meteor.subscribe('calendarEvents', spaceId);
     }
   });
 
@@ -319,6 +320,9 @@ if (Meteor.isServer) {
   Meteor.publish('links', function(spaceId) {
     return Links.find({spaceId: spaceId});
   });
+  Meteor.publish('calendarEvents', function(spaceId) {
+    return CalendarEvents.find({spaceId: spaceId});
+  });
   Meteor.publish('space-invites', function(spaceId) {
     return Invites.find({spaceId: spaceId});
   });
@@ -359,6 +363,21 @@ if (Meteor.isServer) {
   Links.allow({
     remove: function(userId, doc) {
       // you own it, you can delete it
+      return (doc.userId === userId);
+    }
+  });
+
+  CalendarEvents.allow({
+    insert: function(userId, doc) {
+      console.log('insert calev', userId, doc);
+      if ((doc.userId === userId) &&
+          (Memberships.findOne({spaceId: doc.spaceId, userId: userId})))
+        return true;
+    },
+    remove: function(userId, doc) {
+      return (doc.userId === userId);
+    },
+    update: function(userId, doc) {
       return (doc.userId === userId);
     }
   });
