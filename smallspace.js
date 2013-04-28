@@ -138,6 +138,13 @@ if (Meteor.isClient) {
     resizeChat();
   }
 
+  Template.rightSideNav.events = {
+    // XXX hack to render calendar which is initally setup when the tab is hidden: http://arshaw.com/fullcalendar/docs/display/render/
+    'click a[href=#calendarTab]': function() {
+      Meteor.setTimeout(function() { $('.calendar').fullCalendar('render'); }, 0);
+    }
+  }
+
   Template.message.when = function() {
     return moment(this.created).format("HH:mm");
   }
@@ -369,7 +376,6 @@ if (Meteor.isServer) {
 
   CalendarEvents.allow({
     insert: function(userId, doc) {
-      console.log('insert calev', userId, doc);
       if ((doc.userId === userId) &&
           (Memberships.findOne({spaceId: doc.spaceId, userId: userId})))
         return true;
