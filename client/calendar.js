@@ -26,7 +26,7 @@ Template.calendarTab.rendered = function() {
     ],
 
     dayClick: function(date, allDay, jsEvent, view) {
-      var title = prompt('add event for ' + moment(date).format("ddd, MMM YYYY"));
+      var title = prompt('add event for ' + moment(date).format("ddd, MMM Do YYYY"));
       if (title) {
         // XXX move to method call, and insert message in chat window along with it
         var event = { spaceId: Session.get('currentSpace'),
