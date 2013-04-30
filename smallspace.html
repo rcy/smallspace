@@ -135,6 +135,9 @@
     <li class="">
       <a href="#calendarTab" data-toggle="tab">Calendar</a></li>
 
+    <li class="">
+      <a href="#listsTab" data-toggle="tab">Lists</a></li>
+
     <li>
       <a href="#membersTab" data-toggle="tab">Members</a></li>
 
@@ -146,11 +149,14 @@
   </ul>
 
   <div class="rightSideNav tab-content">
-    <div class="tab-pane active" id="linksTab">
+    <div class="tab-pane" id="linksTab">
       {{> linksTab}}
     </div>
     <div class="tab-pane" id="calendarTab">
       {{> calendarTab}}
+    </div>
+    <div class="tab-pane active" id="listsTab">
+      {{> listsTab}}
     </div>
     <div class="tab-pane" id="membersTab">
       {{> membersTab}}

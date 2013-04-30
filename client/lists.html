@@ -1,0 +1,45 @@
+<template name="listsTab">
+  <div class="listsTab container-fluid">
+    <div class="row">
+      <div class="span5">
+        <button class="pull-right btn btn-small new">new list</button>
+        <h2>Lists</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span3">
+        {{#with activeList}}
+          {{> listContent}}
+        {{/with}}
+      </div>
+      <div class="span2">
+        <ul class="nav nav-pills nav-stacked">
+          {{#each lists}}
+            {{> listItem}}
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="listItem">
+  <li class="{{active}}"><a href="#">{{name}}</a></li>
+</template>
+
+<template name="listContent">
+  <button class="pull-right btn btn-link delete">delete list</button>
+  <h4>{{name}}</h4>
+  <form><input type="text" placeholder="new list item" /></form>
+  <ul>
+    {{#each elements}}
+      {{> listElement}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="listElement">
+  <li>
+    {{text}}
+  </li>
+</template>

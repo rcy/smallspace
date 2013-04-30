@@ -3,9 +3,13 @@ Invites = new Meteor.Collection("invites");
 Memberships = new Meteor.Collection("memberships");
 
 Messages = new Meteor.Collection("messages");
+RecentActivity = new Meteor.Collection("recentActivity");
+
 Links = new Meteor.Collection("links");
 CalendarEvents = new Meteor.Collection("calendarEvents");
-RecentActivity = new Meteor.Collection("recentActivity");
+
+Lists = new Meteor.Collection("lists");
+ListElements = new Meteor.Collection("listElements");
 
 Meteor.methods({
   postMessage: function(object) {
