@@ -128,7 +128,10 @@ if (Meteor.isClient) {
   Template.chatWindow.events = {
     "submit form": function(e) {
       var $input = $(e.target).find('input');
-      Meteor.call('post', {text: $input.val(), spaceId: Session.get('currentSpace')},
+      Meteor.call('postMessage',
+                  { _id: Random.id(),
+                    text: $input.val(),
+                    spaceId: Session.get('currentSpace') },
                   function(err, result) {
                   });
       $input.val('');

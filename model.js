@@ -8,13 +8,14 @@ CalendarEvents = new Meteor.Collection("calendarEvents");
 RecentActivity = new Meteor.Collection("recentActivity");
 
 Meteor.methods({
-  post: function(object) {
+  postMessage: function(object) {
     object = object || {};
 
     if (!object.text || !object.spaceId)
       throw new Meteor.Error(400, 'arg error');
 
     var messageObj = {
+      _id: object._id || Random.id(),
       userId: this.userId,
       created: Date.now(),
       text: object.text,
