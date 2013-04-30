@@ -1,11 +1,41 @@
-- show who is signed in in a space
-- make alert sounds
-- indicate in title/tab name the number of messages/notifications
-- add expanded and compact variants to chat messages
-- invite by username
-- my profile page (at least link to gravatar)
-- BUG: scroll to bottom doesnt work when first visiting page because of img loading, find better way to do chat window
-- md5 gravatar urls recomputed over and over
+* general
+** show who is signed in in a space
+** invite by username
+** my profile page (at least link to gravatar)
+** md5 gravatar urls recomputed over and over
+** non gravatar avatars, direct upload, camera photo
 
-- add hide/favourite buttons to links
-- fetch url HEAD to sniff out images that do not have extension
+* chat
+** make alert sounds
+** indicate in title/tab name the number of messages/notifications
+** BUG: scroll to bottom doesnt work when first visiting page because of img loading, find better way to do chat window
+
+* calendar
+** popup editing of event details
+** repeating events
+** multiple day events
+** stretching event durations
+
+* links
+** add hide/favourite buttons to links
+** better inline support
+*** fetch url HEAD to sniff out images that do not have extension
+
+* todo list / ticketing
+** implement simple todo/list tab
+** create new list, add/edit/remove items
+
+* admin tab
+** control which tabs are installed
+
+* space list
+** show activity on each
+** order by visits
+
+* other tab ideas
+** map
+** games
+** messages
+** decision making (vote on lists...)
+** expenses
+** timetracking
