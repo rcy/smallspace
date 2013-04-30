@@ -8,6 +8,9 @@ Meteor.startup(function() {
 
 Template.calendarTab.helpers({
 });
+Template.calendarTab.events({
+});
+
 Template.calendarTab.rendered = function() {
   $('.calendar').fullCalendar({
     header: {
@@ -48,6 +51,4 @@ Template.calendarTab.rendered = function() {
       CalendarEvents.update(event._id, { $set: { start: event.start } });
     }
   });
-}
-Template.calendarTab.events = {
 }
