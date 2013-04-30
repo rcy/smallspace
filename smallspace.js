@@ -120,13 +120,10 @@ if (Meteor.isClient) {
   Template.chatWindow.events = {
     "submit form": function(e) {
       var $input = $(e.target).find('input');
-      $input.attr('disabled', true);
       Meteor.call('post', {text: $input.val(), spaceId: Session.get('currentSpace')},
                   function(err, result) {
-                    if (!err) {
-                      $input.attr('disabled', false).val('');
-                    }
-      });
+                  });
+      $input.val('');
       return false;
     }
   }
