@@ -8,7 +8,6 @@
 * chat
 ** make alert sounds
 ** indicate in title/tab name the number of messages/notifications
-** BUG: scroll to bottom doesnt work when first visiting page because of img loading, find better way to do chat window
 
 * calendar
 ** popup editing of event details
