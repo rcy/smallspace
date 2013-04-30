@@ -66,7 +66,17 @@ Template.listContent.events({
   }
 });
 
-
+Template.listElement.events({
+  'click': function(e) {
+    ListElements.update(this._id, {$set: {checked: !this.checked}});
+    return false;
+  }
+});
+Template.listElement.helpers({
+  checked: function() {
+    return this.checked ? 'checked' : '';
+  }
+});
 
 function generateListName() {
   var adj1 = ['cute', 'awesome', 'happy' ];

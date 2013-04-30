@@ -372,7 +372,8 @@ if (Meteor.isServer) {
   });
 
   Meteor.publish('list-elements', function(spaceId, listId) {
-    return ListElements.find({spaceId: spaceId, listId: listId});
+    return ListElements.find({spaceId: spaceId, listId: listId},
+                             {sort: {created: -1}});
   });
 
   Meteor.startup(function () {
