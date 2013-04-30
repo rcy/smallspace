@@ -27,3 +27,10 @@ html, body {
 .thumbnail:hover {
     background: #dde;
 }
+.message .timestamp {
+    color: gray;
+    text-wrap: none;
+}
+.message .nick {
+    font-weight: bold;
+}

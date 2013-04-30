@@ -254,15 +254,8 @@
 
 <template name="message">
   <div class="message">
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" src="{{avatar userId}}" width="32" height="32" />
-      </a>
-      <div class="media-body">
-        {{when}}
-        &lt;<strong>{{username userId}}</strong>&gt;
-        {{text}}
-      </div>
-    </div>
+    <span class="timestamp">{{when}}</span>
+    <span class="nick">{{username userId}}:</span>
+    <span class="text">{{text}}</span>
   </div>
 </template>

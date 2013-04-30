@@ -152,7 +152,7 @@ if (Meteor.isClient) {
   }
 
   Template.message.when = function() {
-    return moment(this.created).format("HH:mm");
+    return moment(this.created).format("MMM D HH:mm");
   }
 
   Template.rightSideNav.userId = function() {
@@ -343,11 +343,9 @@ if (Meteor.isServer) {
     return Memberships.find({spaceId: spaceId});
   });
   Meteor.publish('my-memberships', function() {
-    console.log('publish my-memberships')
     return Memberships.find({userId: this.userId});
   });
   Meteor.publish('my-invites', function() {
-    console.log('publish my-invites', this.userId)
     var user = Meteor.users.findOne(this.userId);
     if (user)
       return Invites.find({ $or: [ { email: user.emails[0].address },
