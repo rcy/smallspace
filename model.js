@@ -13,14 +13,21 @@ Meteor.methods({
     if (!object.text || !object.spaceId)
       throw new Meteor.Error(400, 'arg error');
 
-    var messageId = Messages.insert({
+    var messageObj = {
       userId: this.userId,
       created: Date.now(),
       text: object.text,
       spaceId: object.spaceId
-    });
+    };
 
-    if (!this.isSimulation) {
+    // add message to list of messages
+    var messageId = Messages.insert(messageObj);
+
+    // store the most recent message in the space itself
+    Spaces.update(object.spaceId, { $set: { lastMessage: messageObj } } );
+
+    // on the server only, add link
+    if (! this.isSimulation) {
       var links = extractLinks(object.text);
       _.each(links, function(link) {
         Links.insert({

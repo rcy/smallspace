@@ -108,6 +108,7 @@ if (Meteor.isClient) {
   Template.spaceListItem.events = {
     'click': function(e) {
       Router.setSpace(this._id);
+      return false;
     }
   }
 

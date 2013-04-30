@@ -71,7 +71,7 @@
   </div>
   {{/each}}
 
-  <ul class="thumbnails">
+  <ul class="media-list">
     {{#each memberSpaces}}
       {{> spaceListItem}}
     {{/each}}
@@ -88,13 +88,23 @@
 </template>
 
 <template name="spaceListItem">
-  <li class="span2">
-    <div class="thumbnail">
-      <img width="200px" src="{{image}}" alt="">
-      <h3>{{name}}</h3>
-      <p>{{description}}</p>
+  <li class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" width="64" height="64" src="{{image}}" alt="">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">{{name}}</h4>
+      {{> lastActivity}}
     </div>
   </li>
+</template>
+
+<template name="lastActivity">
+  <div class="last-activity">
+    {{#with lastMessage}}
+      {{> message}}
+    {{/with}}
+  </div>
 </template>
 
 <template name="space">
