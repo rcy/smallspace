@@ -122,7 +122,7 @@ if (Meteor.isClient) {
 
   Template.chatWindow.helpers({
     messages: function() {
-      return Messages.find({spaceId: Session.get('currentSpace')});
+      return Messages.find({spaceId: Session.get('currentSpace')}, {sort: {created: 1}});
     }
   });
   Template.chatWindow.events = {
@@ -328,7 +328,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.publish('messages', function(spaceId) {
-    return Messages.find({spaceId: spaceId});
+    return Messages.find({spaceId: spaceId}, {sort: {created: -1}, limit: 1000});
   });
   Meteor.publish('links', function(spaceId) {
     return Links.find({spaceId: spaceId});
