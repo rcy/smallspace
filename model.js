@@ -5,6 +5,7 @@ Memberships = new Meteor.Collection("memberships");
 Messages = new Meteor.Collection("messages");
 Links = new Meteor.Collection("links");
 CalendarEvents = new Meteor.Collection("calendarEvents");
+RecentActivity = new Meteor.Collection("recentActivity");
 
 Meteor.methods({
   post: function(object) {
@@ -23,11 +24,8 @@ Meteor.methods({
     // add message to list of messages
     var messageId = Messages.insert(messageObj);
 
-    // store the most recent message in the space itself
-    Spaces.update(object.spaceId, { $set: { lastMessage: messageObj } } );
-
-    // on the server only, add link
     if (! this.isSimulation) {
+      // add link
       var links = extractLinks(object.text);
       _.each(links, function(link) {
         Links.insert({
@@ -40,6 +38,11 @@ Meteor.methods({
           title: 'untitled'
         });
       }, this);
+
+      // record the recent activity
+      RecentActivity.update({ spaceId: object.spaceId },
+                            { $set: { lastMessage: messageObj } },
+                            { upsert: true });
     }
 
     return messageId;

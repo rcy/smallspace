@@ -94,13 +94,15 @@
     </a>
     <div class="media-body">
       <h4 class="media-heading">{{name}}</h4>
-      {{> lastActivity}}
+      {{#with recentActivity}}
+        {{> recentActivity}}
+      {{/with}}
     </div>
   </li>
 </template>
 
-<template name="lastActivity">
-  <div class="last-activity">
+<template name="recentActivity">
+  <div class="last-message">
     {{#with lastMessage}}
       {{> message}}
     {{/with}}

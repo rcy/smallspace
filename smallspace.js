@@ -30,6 +30,11 @@ if (Meteor.isClient) {
   });
 
   Deps.autorun(function() {
+    var spaceIds = _.pluck(Memberships.find().fetch(), 'spaceId');
+    Meteor.subscribe('recent-activity', spaceIds);
+  });
+
+  Deps.autorun(function() {
     var inviteId = Session.get('currentInviteId');
     if (inviteId) {
       var userId = Meteor.userId();
@@ -102,6 +107,9 @@ if (Meteor.isClient) {
   Template.spaceListItem.helpers({
     image: function() {
       return this.image || 'http://www.gravatar.com/avatar/'+md5(this._id)+'.jpg?d=monsterid&s=200'
+    },
+    recentActivity: function() {
+      return RecentActivity.findOne({spaceId: this._id});
     }
   });
 
@@ -352,6 +360,10 @@ if (Meteor.isServer) {
   });
   Meteor.publish('allUserData', function() {
     return Meteor.users.find({}, {fields: {username: 1, emails: 1}});
+  });
+
+  Meteor.publish('recent-activity', function(spaceIds) {
+    return RecentActivity.find({spaceId: {$in: spaceIds}});
   });
 
   Meteor.startup(function () {
