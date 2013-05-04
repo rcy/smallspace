@@ -1,0 +1,48 @@
+<template name="listsTab">
+  <div class="listsTab">
+    {{#if activeList}}
+      {{#with activeList}}
+        {{> listContent}}
+      {{/with}}
+    {{else}}
+      <h1>Todo Lists</h1>
+      <button class="pull-right btn btn-small new">create new list</button>
+      <ul class="nav nav-pills nav-stacked">
+        {{#each lists}}
+          {{> listItem}}
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+</template>
+
+<template name="listItem">
+  <li><a href="#">{{name}}</a></li>
+</template>
+
+<template name="listContent">
+  <a href="#" class="back">&larr; back</a>
+  <button class="pull-right btn btn-link delete">delete</button>
+  <h2 class="name" contenteditable="true">{{name}}</h2>
+  <form class="form"><input type="text" placeholder="new list item" autofocus /></form>
+  <ul>
+    {{#each elements}}
+      {{> listElement}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="listElement">
+  <li>
+    <label>
+      <span class="controls">
+        <a href="#" class="trash">trash</a>
+        &nbsp;
+      </span>
+      <span class="toggle">
+        <input type="checkbox" {{checked}} />
+        <span class="text {{checked}}">{{text}}</span>
+      </span>
+    </label>
+  </li>
+</template>

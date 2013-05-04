@@ -1,0 +1,19 @@
+.listsTab ul { list-style: none inside none; margin: 0; }
+
+.listsTab li:hover {
+    background: #eee;
+}
+
+.listsTab li .text.checked {
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+.listsTab li .controls {
+    display: none;
+    float: right;
+}
+
+.listsTab li:hover .controls {
+    display: inline;
+}

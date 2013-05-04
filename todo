@@ -20,10 +20,6 @@
 ** better inline support
 *** fetch url HEAD to sniff out images that do not have extension
 
-* todo list / ticketing
-** implement simple todo/list tab
-** create new list, add/edit/remove items
-
 * admin tab
 ** control which tabs are installed
 
