@@ -1,20 +1,20 @@
-Lists = new Meteor.Collection("lists");
-ListElements = new Meteor.Collection("listElements");
+TodoLists = new Meteor.Collection("todoLists");
+TodoListElements = new Meteor.Collection("todoListElements");
 
 if (Meteor.isServer) {
-  Meteor.publish('lists', function(spaceId) {
-    return Lists.find({spaceId: spaceId});
+  Meteor.publish('todoLists', function(spaceId) {
+    return TodoLists.find( { spaceId: spaceId } );
   });
 
-  Meteor.publish('list-elements', function(spaceId, listId) {
-    if (spaceId && listId) {
-      return ListElements.find( { spaceId: spaceId,
-                                  listId: listId },
-                                { sort: { created: -1 } } );
+  Meteor.publish('todoListElements', function(spaceId, todoListId) {
+    if (spaceId && todoListId) {
+      return TodoListElements.find( { spaceId: spaceId,
+                                      todoListId: todoListId },
+                                    { sort: { created: -1 } } );
     }
   });
 
-  Lists.allow({
+  TodoLists.allow({
     insert: function(userId, doc) {
       if ((doc.userId === userId) &&
           doc.spaceId &&
@@ -28,7 +28,7 @@ if (Meteor.isServer) {
       return Memberships.findOne({spaceId: doc.spaceId, userId: userId});
     }
   });
-  ListElements.allow({
+  TodoListElements.allow({
     insert: function(userId, doc) { return true; },
     remove: function(userId, doc) { return true; },
     update: function(userId, doc) { return true; }
@@ -41,13 +41,13 @@ Meteor.methods({
 
     // XXX How to map from text collection name to actual object.  Maybe extend Meteor.collection
     switch (collectionName) {
-    case 'ListElements':
-      ListElements.update(id, set);
+    case 'TodoListElements':
+      TodoListElements.update(id, set);
       break;
     }
   }
 });
 
-renameList = function(id, name) {
-  Lists.update(id, { $set: { name: name, updated: Date.now() } });
+renameTodoList = function(id, name) {
+  TodoLists.update(id, { $set: { name: name, updated: Date.now() } });
 }

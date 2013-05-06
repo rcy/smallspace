@@ -1,19 +1,19 @@
-.listsTab ul { list-style: none inside none; margin: 0; }
+.todoListsTab ul { list-style: none inside none; margin: 0; }
 
-.listsTab li:hover {
+.todoListsTab li:hover {
     background: #eee;
 }
 
-.listsTab li .text.checked {
+.todoListsTab li .text.checked {
     text-decoration: line-through;
     color: #aaa;
 }
 
-.listsTab li .controls {
+.todoListsTab li .controls {
     display: none;
     float: right;
 }
 
-.listsTab li:hover .controls {
+.todoListsTab li:hover .controls {
     display: inline;
 }

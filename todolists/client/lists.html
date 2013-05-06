@@ -1,38 +1,38 @@
-<template name="listsTab">
-  <div class="listsTab">
-    {{#if activeList}}
-      {{#with activeList}}
-        {{> listContent}}
+<template name="todoListsTab">
+  <div class="todoListsTab">
+    {{#if activeTodoList}}
+      {{#with activeTodoList}}
+        {{> todoListContent}}
       {{/with}}
     {{else}}
       <h1>Todo Lists</h1>
-      <button class="pull-right btn btn-small new">create new list</button>
+      <button class="pull-right btn btn-small new">create new todoList</button>
       <ul class="nav nav-pills nav-stacked">
-        {{#each lists}}
-          {{> listItem}}
+        {{#each todoLists}}
+          {{> todoListItem}}
         {{/each}}
       </ul>
     {{/if}}
   </div>
 </template>
 
-<template name="listItem">
+<template name="todoListItem">
   <li><a href="#">{{name}}</a></li>
 </template>
 
-<template name="listContent">
+<template name="todoListContent">
   <a href="#" class="back">&larr; back</a>
   <button class="pull-right btn btn-link delete">delete</button>
   <h2 class="name" contenteditable="true">{{name}}</h2>
-  <form class="form"><input type="text" placeholder="new list item" autofocus /></form>
+  <form class="form"><input type="text" placeholder="new todoList item" autofocus /></form>
   <ul>
     {{#each elements}}
-      {{> listElement}}
+      {{> todoListElement}}
     {{/each}}
   </ul>
 </template>
 
-<template name="listElement">
+<template name="todoListElement">
   <li>
     <label>
       <span class="controls">
