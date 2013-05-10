@@ -47,3 +47,12 @@ if (Meteor.isClient) {
   });
 
 }
+
+if (Meteor.isClient) {
+  Template.connected.helpers({
+    onlineUsers: function() {
+      console.log('connected online');
+      return ConnectedUsers.find();
+    }
+  });
+}

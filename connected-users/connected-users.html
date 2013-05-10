@@ -1,0 +1,10 @@
+<template name="connected">
+  online:
+  {{#each onlineUsers}}
+    {{> connectedUser}}
+  {{/each}}
+</template>
+
+<template name="connectedUser">
+  {{username userId}}
+</template>
