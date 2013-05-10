@@ -1,4 +1,5 @@
 * general
+** add show more links to chat and links
 ** show who is signed in in a space
 ** invite by username
 ** my profile page (at least link to gravatar)
@@ -11,9 +12,10 @@
 
 * calendar
 ** popup editing of event details
+** stretching event durations
+** don't load more events than necessary
 ** repeating events
 ** multiple day events
-** stretching event durations
 
 * links
 ** add hide/favourite buttons to links
