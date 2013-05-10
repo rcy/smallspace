@@ -56,14 +56,11 @@ Template.todoListContent.events({
     var $inp = $(e.target).find('input');
 
     if ($inp.val()) {
-      var todoListObj = { userId: Meteor.userId(),
-                          created: Date.now(),
-                          updated: Date.now(),
-                          todoListId: Session.get('activeTodoList'),
-                          spaceId: Session.get('currentSpace'),
-                          text: $inp.val() };
+      Meteor.call('todoListItemInsert', { todoListId: Session.get('activeTodoList'),
+                                          spaceId: Session.get('currentSpace'),
+                                          text: $inp.val()
+                                        });
 
-      var result = TodoListElements.insert(todoListObj, function(x,y) { console.log(x,y) });
       $inp.val('');
     }
     return false;
