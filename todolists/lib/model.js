@@ -38,7 +38,6 @@ if (Meteor.isServer) {
 Meteor.methods({
   todoListItemInsert: function(object) {
     var todoList = TodoLists.findOne(object.todoListId);
-    console.log('todoListItemInsert', object, todoList);
     var todoListObj = { userId: Meteor.userId(),
                         created: Date.now(),
                         updated: Date.now(),
