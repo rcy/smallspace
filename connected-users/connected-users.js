@@ -32,6 +32,7 @@ if (Meteor.isClient) {
   Meteor.startup( function() {
     Meteor.subscribe('connected-users');
 
+    Meteor.call('heartbeat');
     Meteor.setInterval( function() {
       Meteor.call('heartbeat');
     }, 5000);
