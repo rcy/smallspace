@@ -27,7 +27,7 @@ Handlebars.registerHelper("avatar", function(userId, size) {
   var user = Meteor.users.findOne(userId);
   if (user) {
     var email = user.emails[0].address;
-    var src = "http://www.gravatar.com/avatar/" + md5(email) + "?d=retro&s=100";
+    var src = "http://www.gravatar.com/avatar/" + CryptoJS.MD5(email) + "?d=retro&s=100";
     return src;
   } else {
     // force mystery man default for anonymous users

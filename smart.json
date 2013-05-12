@@ -7,6 +7,7 @@
     "jquery-ui-bootstrap": {},
     "fullcalendar": {},
     "presence": {},
-    "moment": {}
+    "moment": {},
+    "crypto-md5": {}
   }
 }
