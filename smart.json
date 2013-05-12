@@ -5,8 +5,6 @@
   },
   "packages": {
     "jquery-ui-bootstrap": {},
-    "fullcalendar": {
-      "git": "https://github.com/rcy/meteor-fullcalendar"
-    }
+    "fullcalendar": {}
   }
 }

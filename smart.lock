@@ -7,10 +7,7 @@
   "dependencies": {
     "basePackages": {
       "jquery-ui-bootstrap": {},
-      "fullcalendar": {
-        "git": "https://github.com/rcy/meteor-fullcalendar",
-        "branch": "master"
-      }
+      "fullcalendar": {}
     },
     "packages": {
       "jquery-ui-bootstrap": {
@@ -19,9 +16,9 @@
         "commit": "fa742a85639307003e105898e15b631394b63509"
       },
       "fullcalendar": {
-        "git": "https://github.com/rcy/meteor-fullcalendar",
-        "branch": "master",
-        "commit": "bf0ba4cad160d711a9a7afc675db221b252fe859"
+        "git": "https://github.com/TimHeckel/meteor-fullcalendar.git",
+        "tag": "v1.6.1",
+        "commit": "78dba7c564bf7baacf6556c70a3cc179d0e137c4"
       },
       "jquery-ui": {
         "git": "https://github.com/TimHeckel/meteor-jquery-ui.git",
