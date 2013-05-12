@@ -3,41 +3,25 @@
 // keeps track of connected users, and publishes to client so that
 // presence information can be shared
 
-ConnectedUsers = new Meteor.Collection('connected-users');
-
 if (Meteor.isServer) {
-  Meteor.publish('connected-users', function() {
-    return ConnectedUsers.find();
-  });
+  Meteor.publish('userPresence', function() {
+    console.log('publish userPresence');
+    // Setup some filter to find the users your logged in user
+    // cares about. It's unlikely that you want to publish the
+    // presences of _all_ the users in the system.
+    var filter = {};
 
-  Meteor.methods({
-    heartbeat: function() {
-      var cu = ConnectedUsers.findOne({ userId: this.userId });
-
-      if (cu)
-        ConnectedUsers.update(cu._id, {$set: { timestamp: Date.now() }});
-      else
-        ConnectedUsers.insert({ userId: this.userId, timestamp: Date.now() });
-    }
-  });
-
-  Meteor.startup( function() {
-    Meteor.setInterval( function() {
-      ConnectedUsers.remove({timestamp: {$lt: Date.now() - 10000}});
-    }, 5000);
+    // ProTip: unless you need it, don't send lastSeen down as it'll make your
+    // templates constantly re-render (and use bandwidth)
+    return Meteor.presences.find(filter, {fields: {state: true, userId: true}});
   });
 }
 
 if (Meteor.isClient) {
   Meteor.startup( function() {
-    Meteor.subscribe('connected-users');
+    Meteor.subscribe('userPresence');
 
-    Meteor.call('heartbeat');
-    Meteor.setInterval( function() {
-      Meteor.call('heartbeat');
-    }, 5000);
-
-    ConnectedUsers.find().observe({
+    Meteor.presences.find().observe({
       added: function(cu) {
         console.log('presence: +', cu.userId);
       },
@@ -47,13 +31,10 @@ if (Meteor.isClient) {
     });
   });
 
-}
-
-if (Meteor.isClient) {
   Template.connected.helpers({
     onlineUsers: function() {
       console.log('connected online');
-      return ConnectedUsers.find();
+      return Meteor.presences.find();
     }
   });
 }

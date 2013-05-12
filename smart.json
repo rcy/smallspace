@@ -5,6 +5,7 @@
   },
   "packages": {
     "jquery-ui-bootstrap": {},
-    "fullcalendar": {}
+    "fullcalendar": {},
+    "presence": {}
   }
 }
