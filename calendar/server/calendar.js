@@ -10,10 +10,10 @@ if (Meteor.isServer) {
         return true;
     },
     remove: function(userId, doc) {
-      return (doc.userId === userId);
+      return Memberships.findOne({spaceId: doc.spaceId, userId: userId});
     },
     update: function(userId, doc) {
-      return (doc.userId === userId);
+      return Memberships.findOne({spaceId: doc.spaceId, userId: userId});
     }
   });
 }
