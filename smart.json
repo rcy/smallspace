@@ -3,5 +3,10 @@
     "git": "https://github.com/meteor/meteor.git",
     "tag": "release/0.6.2.1"
   },
-  "packages": {}
+  "packages": {
+    "jquery-ui-bootstrap": {},
+    "fullcalendar": {
+      "git": "https://github.com/rcy/meteor-fullcalendar"
+    }
+  }
 }

@@ -10,3 +10,5 @@ accounts-base
 accounts-password
 backbone
 email
+jquery-ui-bootstrap
+fullcalendar
